@@ -1,6 +1,7 @@
 # Yellofie_FrontEnd_team3
 yellofie  front end for team3 
-##follow this step to install the expo templete
+
+## Follow this step to install the expo templete
   install package first
   try to understand the project
   write your code
