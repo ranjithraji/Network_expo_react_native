@@ -10,6 +10,13 @@ yellofie  front end for team3
     
 ## Install the expo package 
     "yarn install" use this cmd to install your package
+    
+## run the project using
+  yarn start
+  npm start
+
+## clone the branch 
+  use this cmd to clone the project "git clone https://github.com/ranjithraji/Yellofie_FrontEnd_team3.git"
 
 ## Create an your branch
 * 1: Click the master branch icon
@@ -23,8 +30,8 @@ yellofie  front end for team3
 * 2: Select the changes and stage that changes using (+) icons
 * 3: Add commit message what you are working on that changes (eg: Added a Curd Api for cart) 
 * 4: Commit the change using tick icon
-* 5: Push your branch using this cmd "git push https://github.com/ranjithraji/Yellofie_Backend.git (your branch name  eg : Ranjith)"
+* 5: Push your branch using this cmd "git push https://github.com/ranjithraji/Yellofie_FrontEnd_team3.git (your branch name  eg : Ranjith)"
 
 ## Pull others branch
 * 1: Commit your change before pull others branch
-* 2: Pull other branch using this cmd "git pull  <Branch name>" (eg:Ahosk)
+* 2: Pull other branch using this cmd "git pull  https://github.com/ranjithraji/Yellofie_FrontEnd_team3.git <Branch name>" (eg:Ahosk)
