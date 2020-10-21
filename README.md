@@ -5,8 +5,8 @@ yellofie  front end for team3
   try to understand the project
   write your code
   
-##Install yarn first
+## Install yarn first
     use this link to install yarn  https://classic.yarnpkg.com/en/docs/install/#windows-stable
     
-##Install the expo package 
+## Install the expo package 
     "yarn install" use this cmd to install your package
