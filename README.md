@@ -6,6 +6,10 @@ yellofie  front end for team3
   try to understand the project
   write your code
   
+
+## clone the branch 
+  use this cmd to clone the project "git clone https://github.com/ranjithraji/Yellofie_FrontEnd_team3.git"
+  
 ## Install yarn first
     use this link to install yarn  https://classic.yarnpkg.com/en/docs/install/#windows-stable
     
@@ -16,8 +20,6 @@ yellofie  front end for team3
   yarn start
   npm start
 
-## clone the branch 
-  use this cmd to clone the project "git clone https://github.com/ranjithraji/Yellofie_FrontEnd_team3.git"
 
 ## Create an your branch
 * 1: Click the master branch icon
