@@ -1,15 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import StatusBar from "../../Components/StatusBar/StatusBar";
 import Button from "../../Components/Button/Button";
-const IssueCard = ({ data }) => {
-//   const {issueType, location, assignedBy, reportingAt} = data;
+
+const Issues = ({ data }) => {
+  const { issueType, location, assignedBy, reportingAt, status } = data;
   return (
     <View style={style.issueCard}>
       <View style={style.tag}>
-        <Text>1 hour ago</Text>
-        <View style={{ marginTop: 20 }}>
-          <StatusBar status={"In Progress"} />
+        <View style={{ marginTop: 5 }}>
+          <StatusBar status={status} />
         </View>
       </View>
 
@@ -19,7 +19,7 @@ const IssueCard = ({ data }) => {
             <Text style={style.dataHeadRowText}>Issue Type :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>MCA</Text>
+            <Text style={style.dataValueRow}>{issueType}</Text>
           </View>
         </View>
 
@@ -28,7 +28,7 @@ const IssueCard = ({ data }) => {
             <Text style={style.dataHeadRowText}>Location :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>MCA</Text>
+            <Text style={style.dataValueRow}>{location}</Text>
           </View>
         </View>
 
@@ -37,35 +37,35 @@ const IssueCard = ({ data }) => {
             <Text style={style.dataHeadRowText}>Assigned by :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>MCA</Text>
+            <Text style={style.dataValueRow}>{assignedBy}</Text>
           </View>
         </View>
 
         <View style={style.rowView}>
           <View style={style.dataHeadRow}>
-            <Text style={style.dataHeadRowText}>Issue Type :</Text>
+            <Text style={style.dataHeadRowText}>Reporting At :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>MCA</Text>
+            <Text style={style.dataValueRow}>{reportingAt}</Text>
           </View>
         </View>
       </View>
 
       <View style={style.tag}>
-        <Button title={"view >>"} greenText />
+        <Button title={"view >>"} type={"primary"} width={100} radius={10} />
       </View>
     </View>
   );
 };
 
-export default IssueCard;
+export default Issues;
 
 const style = StyleSheet.create({
   issueCard: {
     padding: 15,
     borderWidth: 1,
-    
-    height: 350,
+
+    height: 300,
     borderRadius: 20,
   },
   tag: {
