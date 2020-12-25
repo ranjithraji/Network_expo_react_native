@@ -18,7 +18,7 @@ type === 'white'? '#000000':greenText?'#23BB9F':'#FFFFFF';
     )
 }
 
-export default Button
+export default Button;
 
 const styles = StyleSheet.create({
     buttonContainer:{
