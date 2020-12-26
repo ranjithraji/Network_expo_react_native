@@ -5,7 +5,7 @@ const StatusBar = ({status}) => {
     return (
         <View style={[styles.container,{backgroundColor:status === 'In Progress'? '#F7BC13':
                                                         status === 'Not Assigned'?'#F12E2E':
-                                                        status === 'Completed'?'#80E220':
+                                                        status === 'Complete'?'#80E220':
                                                         status === 'Verify'? '#1E538F':"white"}]}>
             <Text style={styles.innerText}>{status}</Text>
         </View>

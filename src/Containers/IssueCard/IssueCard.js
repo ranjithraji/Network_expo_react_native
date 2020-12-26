@@ -1,16 +1,17 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import StatusBar from '../../Components/StatusBar/StatusBar';
-import Button from '../../Components/Button/Button'
+import Button from '../../Components/Button/Button';
 const IssueCard = ({ data }) => {
-
+console.log(data);
     // const {issueType, location, assignedBy, reportingAt} = data;
+    
     return (
         <View style={style.issueCard}>
             <View style={style.tag}>
-                <Text>1 hour ago</Text>
+                <Text>{data.createdAt}</Text>
                 <View style={{ marginTop: 20 }}>
-                    <StatusBar status={'In Progress'} />
+                    <StatusBar status={data.status||'In Progress'} />
                 </View>
             </View>
 
@@ -20,7 +21,7 @@ const IssueCard = ({ data }) => {
                         <Text style={style.dataHeadRowText}>Issue Type :</Text>
                     </View>
                     <View style={style.dataRow}>
-                        <Text style={style.dataValueRow}>MCA</Text>
+                        <Text style={style.dataValueRow}>{data.issueType || 'nn'}</Text>
                     </View>
 
                 </View>
@@ -30,7 +31,7 @@ const IssueCard = ({ data }) => {
                         <Text style={style.dataHeadRowText}>Location :</Text>
                     </View>
                     <View style={style.dataRow}>
-                        <Text style={style.dataValueRow}>MCA</Text>
+                        <Text style={style.dataValueRow}>{data.location || 'loc'}</Text>
                     </View>
 
                 </View>
@@ -40,20 +41,20 @@ const IssueCard = ({ data }) => {
                         <Text style={style.dataHeadRowText}>Assigned by :</Text>
                     </View>
                     <View style={style.dataRow}>
-                        <Text style={style.dataValueRow}>MCA</Text>
+                        <Text style={style.dataValueRow}>{data.AssignedBy || 'ham'}</Text>
                     </View>
 
                 </View>
 
-                <View style={style.rowView}>
+                {/* <View style={style.rowView}>
                     <View style={style.dataHeadRow}>
-                        <Text style={style.dataHeadRowText}>Issue Type :</Text>
+                        <Text style={style.dataHeadRowText}>Reporting at :</Text>
                     </View>
                     <View style={style.dataRow}>
                         <Text style={style.dataValueRow}>MCA</Text>
                     </View>
 
-                </View>
+                </View> */}
             </View>
 
 
