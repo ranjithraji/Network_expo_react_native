@@ -1,26 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import IssueCard from "./src/Containers/IssueCard/IssueCard";
-import Main from "./src/MainRoot/Root";
-import CreateIssue from "./src/Screens/CreateIssue";
-import InquiryScreen from "./src/Screens/InquiryScreen";
-import IssuesScreen from "./src/Screens/IssuesScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
-import SignUpScreen from "./src/Screens/SignUpScreen";
-import VerifyScreen from "./src/Screens/VerifyScreen";
-import  Store  from './Service/GlobalContxt';
+import { StyleSheet } from "react-native";
+import Store from "./Service/GlobalContxt";
 export default function App() {
   return (
     <React.Fragment>
-      <Store>
-      {/* <IssuesScreen /> */}
-      {/* <SignUpScreen /> */}
-      {/* <VerifyScreen /> */}
-      <LoginScreen />
-      {/* <CreateIssue /> */}
-      {/* <InquiryScreen /> */}
-      </Store>
+      <Store></Store>
     </React.Fragment>
   );
 }
