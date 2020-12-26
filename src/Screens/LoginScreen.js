@@ -1,17 +1,36 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { Login } from "../../Service/ApiService";
 import Button from "../Components/Button/Button";
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = async () => {
+    console.log("object")
+    try{
+      const response = await Login({email: email, password: password});
+      if(response){
+        if(response.success){
+
+        }
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ padding: 20 }}>
         <View style={styles.inputView}>
-          <TextInput placeholder={"Person Id / Email"} style={{ width: 200 }} />
+          <TextInput placeholder={"Person Id / Email"} style={{ width: 200 }} value={email} onChange={(e)=>{setEmail(e.target.value)}} />
         </View>
         <View style={[styles.inputView, { marginTop: 45 }]}>
-          <TextInput placeholder={"Password"} style={{ width: 200 }} />
+          <TextInput placeholder={"Password"} style={{ width: 200 }} value={password} onChange={(e)=>{setPassword(e.target.value)}} />
         </View>
       </View>
 
@@ -32,6 +51,7 @@ const LoginScreen = () => {
 
       <View style={{ padding: 20 }}>
         <TouchableOpacity
+        onPress={login}
           style={{
             backgroundColor: "#1E538F",
             width: 120,

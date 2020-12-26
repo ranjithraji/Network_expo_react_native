@@ -3,6 +3,8 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import IssueCard from "./src/Containers/IssueCard/IssueCard";
 import Main from "./src/MainRoot/Root";
+import CreateIssue from "./src/Screens/CreateIssue";
+import InquiryScreen from "./src/Screens/InquiryScreen";
 import IssuesScreen from "./src/Screens/IssuesScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
 import SignUpScreen from "./src/Screens/SignUpScreen";
@@ -13,7 +15,9 @@ export default function App() {
       {/* <IssuesScreen /> */}
       {/* <SignUpScreen /> */}
       {/* <VerifyScreen /> */}
-      <LoginScreen />
+      {/* <LoginScreen /> */}
+      {/* <CreateIssue /> */}
+      <InquiryScreen />
     </React.Fragment>
   );
 }

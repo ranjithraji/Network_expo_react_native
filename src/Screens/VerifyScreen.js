@@ -1,25 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { Verify } from "../../Service/ApiService";
 
 const VerifyScreen = () => {
+  const [password, setPassword] = useState("");
+  const [cPassword, setCPassword] = useState("");
+  const [code, setCode] = useState(0);
+  const [err, setErr] = useState("");
+
+  const verify = async () => {
+    if (password !== cPassword) {
+      setErr("password not same");
+    }
+    try {
+      const response = await Verify({ secretCode: code, password: password });
+      if (response) {
+        if (response.success) {
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ padding: 20 }}>
         <View style={styles.inputView}>
-          <TextInput placeholder={"Confirm Code"} style={{ width: 200 }} />
+          <TextInput
+            placeholder={"Confirm Code"}
+            style={{ width: 200 }}
+            value={code}
+            onChange={e => {
+              setCode(parseInt(e.target.value));
+            }}
+          />
         </View>
         <View style={[styles.inputView, { marginTop: 35 }]}>
-          <TextInput placeholder={"Password"} style={{ width: 200 }} />
+          <TextInput
+            placeholder={"Password"}
+            style={{ width: 200 }}
+            value={password}
+            onChange={e => {
+              setPassword(e.target.value);
+            }}
+          />
         </View>
 
         <View style={[styles.inputView, { marginTop: 35 }]}>
-          <TextInput placeholder={"Confirm Password"} style={{ width: 200 }} />
+          <TextInput
+            placeholder={"Confirm Password"}
+            style={{ width: 200 }}
+            value={cPassword}
+            onChange={e => {
+              setCPassword(e.target.value);
+            }}
+          />
         </View>
       </View>
 
       <View style={{ padding: 20 }}>
         <TouchableOpacity
+          onPress={verify}
           style={{
             backgroundColor: "#1E538F",
             width: 120,
@@ -33,6 +76,12 @@ const VerifyScreen = () => {
             Verify
           </Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={{ padding: 20 }}>
+        <View style={{ marginTop: 35 }}>
+          <Text style={{color: 'red'}}>{err}</Text>
+        </View>
       </View>
 
       {/* <View

@@ -5,9 +5,9 @@ const StatusBar = ({ status }) => {
   const bgColor =
     status === "In Progress"
       ? "#F7BC13"
-      : status === "Not Assigned"
+      : status === "Not Assign"
       ? "#F12E2E"
-      : status === "Completed"
+      : status === "Complete"
       ? "#80E220"
       : status === "Verify"
       ? "#1E538F"

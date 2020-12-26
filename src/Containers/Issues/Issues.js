@@ -5,6 +5,7 @@ import Button from "../../Components/Button/Button";
 
 const Issues = ({ data }) => {
   const { issueType, location, assignedBy, reportingAt, status } = data;
+
   return (
     <View style={style.issueCard}>
       <View style={style.tag}>
@@ -37,7 +38,9 @@ const Issues = ({ data }) => {
             <Text style={style.dataHeadRowText}>Assigned by :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>{assignedBy}</Text>
+            <Text style={style.dataValueRow}>
+              {assignedBy ? assignedBy.userName : "Not Assigned"}
+            </Text>
           </View>
         </View>
 
@@ -46,7 +49,9 @@ const Issues = ({ data }) => {
             <Text style={style.dataHeadRowText}>Reporting At :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>{reportingAt}</Text>
+            <Text style={style.dataValueRow}>
+              {reportingAt ? reportingAt : "No Report"}
+            </Text>
           </View>
         </View>
       </View>
@@ -72,7 +77,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "flex-end",
   },
-  dataRow: { width: 160, height: 25, borderRadius: 5, borderWidth: 1 },
+  dataRow: { width: 170, height: 25, borderRadius: 5, borderWidth: 1 },
   rowView: {
     flexDirection: "row",
     justifyContent: "space-around",

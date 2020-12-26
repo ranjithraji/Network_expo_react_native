@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { SignUp } from "../../Service/ApiService";
 
 const SignUpScreen = () => {
+  const [personId, setPersonId] = useState("");
+  const [email, setEmail] = useState("");
+
+  const register = async () => {
+    console.log("object")
+    try{
+      const response = await SignUp({personId: personId, email: email});
+      console.log(response)
+      if(response){
+        if(response.success){
+        }
+      }
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ padding: 20 }}>
         <View style={styles.inputView}>
-          <TextInput placeholder={"Phone Number"} style={{ width: 200 }} />
+          <TextInput placeholder={"Person Id"} value={personId} style={{ width: 200 }} onChange={(e)=>{setPersonId(e.target.value)}} />
         </View>
         <View style={[styles.inputView, { marginTop: 25 }]}>
-          <TextInput placeholder={"Email"} style={{ width: 200 }} />
+          <TextInput placeholder={"Email"} value={email} style={{ width: 200 }} onChange={(e)=>{setEmail(e.target.value)}}/>
         </View>
         
       </View>
 
       <View style={{ padding: 20 }}>
         <TouchableOpacity
+        onPress={register}
           style={{
             backgroundColor: "#1E538F",
             width: 120,
