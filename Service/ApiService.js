@@ -1,5 +1,9 @@
 const path = "http://192.168.43.213:2000/v1";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const token = AsyncStorage.getItem("token");
+
 export async function SignUp(body) {
   let response;
   try {
@@ -8,9 +12,9 @@ export async function SignUp(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
-    if(response){
+    if (response) {
       return response.json();
     }
   } catch (error) {
@@ -26,9 +30,9 @@ export async function Login(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
-    if(response){
+    if (response) {
       return response.json();
     }
   } catch (error) {
@@ -36,7 +40,7 @@ export async function Login(body) {
   }
 }
 
-export async function Verify(body,token) {
+export async function Verify(body, token) {
   let response;
   try {
     response = await fetch(`${path}/user/verify`, {
@@ -45,9 +49,9 @@ export async function Verify(body,token) {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
-    if(response){
+    if (response) {
       return response.json();
     }
   } catch (error) {
@@ -66,7 +70,7 @@ export async function Profile(token) {
       },
     });
 
-    if(response){
+    if (response) {
       return response.json();
     }
   } catch (error) {
@@ -154,7 +158,7 @@ export async function createIssue(token, body) {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
     if (response) {
@@ -164,3 +168,34 @@ export async function createIssue(token, body) {
     throw error;
   }
 }
+
+// const URL = 'http://192.168.43.207:2000'
+export const getIssuesNotified = async () => {
+  let response;
+  try {
+    response = await fetch(`${path}/v1/user/get/notifications`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    if (response.status == 200) {
+      return await response.json();
+    }
+    if (response.status == 400) {
+      var errorResponse = await response.json();
+      throw new Error(errorResponse.error);
+    }
+    if (response.status == 401) {
+      var errorResponse = await response.json();
+      throw new Error(errorResponse.error);
+    }
+    {
+      return response;
+    }
+  } catch (e) {
+    console.log(e.message);
+    throw new Error(e.message);
+  }
+};
