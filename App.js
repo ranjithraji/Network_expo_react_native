@@ -9,15 +9,18 @@ import IssuesScreen from "./src/Screens/IssuesScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
 import SignUpScreen from "./src/Screens/SignUpScreen";
 import VerifyScreen from "./src/Screens/VerifyScreen";
+import  Store  from './Service/GlobalContxt';
 export default function App() {
   return (
     <React.Fragment>
+      <Store>
       {/* <IssuesScreen /> */}
-      <SignUpScreen />
+      {/* <SignUpScreen /> */}
       {/* <VerifyScreen /> */}
-      {/* <LoginScreen /> */}
+      <LoginScreen />
       {/* <CreateIssue /> */}
       {/* <InquiryScreen /> */}
+      </Store>
     </React.Fragment>
   );
 }

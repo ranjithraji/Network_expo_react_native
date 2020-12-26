@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Verify } from "../../Service/ApiService";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const VerifyScreen = () => {
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
   const [code, setCode] = useState(0);
+  const [aCode, setACode] = useState("");
   const [err, setErr] = useState("");
 
   const verify = async () => {
@@ -14,9 +16,23 @@ const VerifyScreen = () => {
       setErr("password not same");
     }
     try {
-      const response = await Verify({ secretCode: code, password: password });
-      if (response) {
-        if (response.success) {
+      const value = await AsyncStorage.getItem("token");
+      if (value !== null) {
+        try {
+          const response = await Verify(
+            {
+              secretCode: code,
+              password: password,
+            },
+            value
+          );
+          console.log(response);
+          if (response) {
+            if (response.success) {
+            }
+          }
+        } catch (e) {
+          console.log(e);
         }
       }
     } catch (e) {
@@ -31,19 +47,21 @@ const VerifyScreen = () => {
           <TextInput
             placeholder={"Confirm Code"}
             style={{ width: 200 }}
-            value={code}
-            onChange={e => {
-              setCode(parseInt(e.target.value));
+            textContentType={"oneTimeCode"}
+            value={aCode}
+            onChangeText={txt => {
+              setACode(txt);
+              setCode(parseInt(txt));
             }}
           />
         </View>
         <View style={[styles.inputView, { marginTop: 35 }]}>
           <TextInput
-            placeholder={"Password"}
             style={{ width: 200 }}
             value={password}
-            onChange={e => {
-              setPassword(e.target.value);
+            placeholder={"Password"}
+            onChangeText={txt => {
+              setPassword(txt);
             }}
           />
         </View>
@@ -53,8 +71,8 @@ const VerifyScreen = () => {
             placeholder={"Confirm Password"}
             style={{ width: 200 }}
             value={cPassword}
-            onChange={e => {
-              setCPassword(e.target.value);
+            onChangeText={txt => {
+              setCPassword(txt);
             }}
           />
         </View>
@@ -80,7 +98,7 @@ const VerifyScreen = () => {
 
       <View style={{ padding: 20 }}>
         <View style={{ marginTop: 35 }}>
-          <Text style={{color: 'red'}}>{err}</Text>
+          <Text style={{ color: "red" }}>{err}</Text>
         </View>
       </View>
 

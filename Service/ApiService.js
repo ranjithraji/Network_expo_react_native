@@ -8,7 +8,7 @@ export async function SignUp(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: body
+      body: JSON.stringify(body)
     });
     if(response){
       return response.json();
@@ -26,7 +26,7 @@ export async function Login(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: body
+      body: JSON.stringify(body)
     });
     if(response){
       return response.json();
@@ -45,7 +45,7 @@ export async function Verify(body,token) {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: body
+      body: JSON.stringify(body)
     });
     if(response){
       return response.json();
