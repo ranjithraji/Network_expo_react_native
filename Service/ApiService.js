@@ -1,4 +1,4 @@
-const path = "http://192.168.43.213:2000/v1";
+const path = "http://7959801ff45c.ngrok.io/v1";
 
 export async function SignUp(body) {
   let response;
