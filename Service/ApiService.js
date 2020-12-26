@@ -1,81 +1,76 @@
 const path = "http://192.168.43.213:2000/v1";
 
 export async function SignUp(body) {
-  console.log(body);
+  let response;
   try {
-    const response = await fetch(`${path}/user/register`, {
+    response = await fetch(`${path}/user/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: body,
+      body: body
     });
-    console.log(await response.json(), "aaaa");
-    if (response) {
-      if (response.status === 200) {
-        return response;
-      }
+    if(response){
+      return response.json();
     }
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 
 export async function Login(body) {
+  let response;
   try {
-    const response = await fetch(`${path}/user/login`, {
+    response = await fetch(`${path}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: body,
+      body: body
     });
-    if (response) {
-      if (response.status === 200) {
-        return response;
-      }
+    if(response){
+      return response.json();
     }
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 
-export async function Verify(body, token) {
+export async function Verify(body,token) {
+  let response;
   try {
-    const response = await fetch(`${path}/user/verify`, {
+    response = await fetch(`${path}/user/verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: body,
+      body: body
     });
-    if (response) {
-      if (response.status === 200) {
-        return response;
-      }
+    if(response){
+      return response.json();
     }
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 
 export async function Profile(token) {
+  let response;
   try {
-    const response = await fetch(`${path}/user/profile`, {
+    response = await fetch(`${path}/user/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     });
-    if (response) {
-      if (response.status === 200) {
-        return response;
-      }
+
+    if(response){
+      return response.json();
     }
-  } catch (e) {
-    throw e;
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -106,7 +101,62 @@ export async function getOneFacIssues(token, id) {
         Authorization: token,
       },
     });
-    await console.log(response, 'response');
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllDepartMent() {
+  let response;
+  try {
+    response = await fetch(`${path}/departments`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllLocations() {
+  let response;
+  try {
+    response = await fetch(`${path}/locations`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createIssue(token, body) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(body)
+    });
+
     if (response) {
       return response.json();
     }

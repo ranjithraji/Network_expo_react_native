@@ -13,11 +13,11 @@ export default function App() {
   return (
     <React.Fragment>
       {/* <IssuesScreen /> */}
-      {/* <SignUpScreen /> */}
+      <SignUpScreen />
       {/* <VerifyScreen /> */}
       {/* <LoginScreen /> */}
       {/* <CreateIssue /> */}
-      <InquiryScreen />
+      {/* <InquiryScreen /> */}
     </React.Fragment>
   );
 }
