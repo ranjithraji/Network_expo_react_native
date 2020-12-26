@@ -1,42 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { SignUp } from "../../Service/ApiService";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const SignUpScreen = () => {
-  const [personId, setPersonId] = useState("");
-  const [email, setEmail] = useState("");
+  const [personId, setPersonId] = React.useState("");
+  const [email, setEmail] = React.useState("");
 
   const register = async () => {
-    console.log("object")
-    try{
-      const response = await SignUp({personId: personId, email: email});
-      console.log(response)
-      if(response){
-        if(response.success){
+    console.log("object");
+
+    try {
+      const response = await SignUp({ personId: personId, email: email });
+      console.log(response, { personId: personId, email: email });
+      if (response) {
+        if (response.success) {
+          await AsyncStorage.setItem("token", response.token);
         }
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ padding: 20 }}>
         <View style={styles.inputView}>
-          <TextInput placeholder={"Person Id"} value={personId} style={{ width: 200 }} onChange={(e)=>{setPersonId(e.target.value)}} />
+          <TextInput
+            placeholder={"Person Id"}
+            value={personId}
+            style={{ width: 200 }}
+            onChangeText={txt => {
+              setPersonId(txt);
+            }}
+          />
         </View>
         <View style={[styles.inputView, { marginTop: 25 }]}>
-          <TextInput placeholder={"Email"} value={email} style={{ width: 200 }} onChange={(e)=>{setEmail(e.target.value)}}/>
+          <TextInput
+            placeholder={"Email"}
+            value={email}
+            style={{ width: 200 }}
+            onChangeText={txt => {
+              setEmail(txt);
+            }}
+          />
         </View>
-        
       </View>
 
       <View style={{ padding: 20 }}>
         <TouchableOpacity
-        onPress={register}
+          onPress={register}
           style={{
             backgroundColor: "#1E538F",
             width: 120,

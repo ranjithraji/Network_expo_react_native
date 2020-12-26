@@ -1,36 +1,80 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Login } from "../../Service/ApiService";
+import { Login, Profile } from "../../Service/ApiService";
 import Button from "../Components/Button/Button";
+import AsyncStorage from "@react-native-community/async-storage";
+import { GlobalContext } from "../../Service/GlobalContxt";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const state = React.useContext(GlobalContext);
 
-  const login = async () => {
-    console.log("object")
-    try{
-      const response = await Login({email: email, password: password});
-      if(response){
-        if(response.success){
-
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem("token");
+      if (value !== null) {
+        try {
+          const response = await Profile(value);
+          console.log(response);
+          if (response) {
+            await state.StateDispatch({
+              type: "LOGIN",
+              payload: { user: response.user, token: value },
+            });
+          }
+        } catch (e) {
+          console.log(e);
         }
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
+
+  React.useEffect(() => {
+    getToken();
+  }, []);
+
+  const login = async () => {
+    console.log("object");
+    try {
+      const response = await Login({ email: email, password: password });
+      console.log(response);
+      if (response) {
+        if (response.success) {
+          await AsyncStorage.setItem("token", response.token);
+          getToken();
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ padding: 20 }}>
         <View style={styles.inputView}>
-          <TextInput placeholder={"Person Id / Email"} style={{ width: 200 }} value={email} onChange={(e)=>{setEmail(e.target.value)}} />
+          <TextInput
+            placeholder={"Person Id / Email"}
+            style={{ width: 200 }}
+            value={email}
+            onChangeText={txt => {
+              setEmail(txt);
+            }}
+          />
         </View>
         <View style={[styles.inputView, { marginTop: 45 }]}>
-          <TextInput placeholder={"Password"} style={{ width: 200 }} value={password} onChange={(e)=>{setPassword(e.target.value)}} />
+          <TextInput
+            placeholder={"Password"}
+            style={{ width: 200 }}
+            value={password}
+            onChangeText={txt => {
+              setPassword(txt);
+            }}
+          />
         </View>
       </View>
 
@@ -51,7 +95,7 @@ const LoginScreen = () => {
 
       <View style={{ padding: 20 }}>
         <TouchableOpacity
-        onPress={login}
+          onPress={login}
           style={{
             backgroundColor: "#1E538F",
             width: 120,
