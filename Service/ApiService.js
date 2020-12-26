@@ -1,6 +1,6 @@
 const path = "http://192.168.43.213:2000/v1";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+const AsyncStorage = require("@react-native-async-storage/async-storage");
 
 const token = AsyncStorage.getItem("token");
 
