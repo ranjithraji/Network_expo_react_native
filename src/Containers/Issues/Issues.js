@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import StatusBar from "../../Components/StatusBar/StatusBar";
 import Button from "../../Components/Button/Button";
 
-const Issues = ({ data }) => {
-  const { issueType, location, assignedBy, reportingAt, status } = data;
+const Issues = ({ data, navigation }) => {
+  const { issueType, location, assignedBy, reportingAt, status, _id } = data;
 
   return (
     <View style={style.issueCard}>
@@ -57,7 +57,15 @@ const Issues = ({ data }) => {
       </View>
 
       <View style={style.tag}>
-        <Button title={"view >>"} type={"primary"} width={100} radius={10} />
+        <Button
+          title={"view >>"}
+          type={"primary"}
+          width={100}
+          radius={10}
+          pressFunction={() =>
+            navigation.navigate("IssuesDetails", { id: _id })
+          }
+        />
       </View>
     </View>
   );
@@ -68,16 +76,25 @@ export default Issues;
 const style = StyleSheet.create({
   issueCard: {
     padding: 15,
-    borderWidth: 1,
-
-    height: 300,
+    borderWidth: 1.5,
+    borderColor: "#d2d2d2",
     borderRadius: 20,
+    height: 300,
+
+    // elevation:5
   },
   tag: {
     paddingHorizontal: 20,
     alignItems: "flex-end",
   },
-  dataRow: { width: 170, height: 25, borderRadius: 5, borderWidth: 1 },
+  dataRow: {
+    width: 170,
+    height: 25,
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: "#d2d2d2",
+    borderRadius: 5,
+  },
   rowView: {
     flexDirection: "row",
     justifyContent: "space-around",

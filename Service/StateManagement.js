@@ -3,6 +3,7 @@ export const reducer = (state, action) => {
     switch (action.type) {
       case 'LOGIN':
         const user = action.payload.user;
+        console.log(user, "userccccccccccccc");
         return {
           ...state,
           isLoading:false,

@@ -20,6 +20,9 @@ import HomeScreen from '../../Screens/HomeScreen';
 import CreateIssue from '../../Screens/CreateIssue';
 import { createDailyUpdate } from '../../../Service/ApiService';
 import DailyAllUpdateScreen from '../../Screens/DailyAllUpdateScreen';
+import InquiryScreen from '../../Screens/InquiryScreen';
+import { createIssue } from '../../../Service/ApiService';
+import NotAssIssueScreen from '../../Screens/NotAssIssueScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -148,6 +151,87 @@ function firstScreenStack({ navigation }) {
         }}
       />
      
+      <Stack.Screen
+        name="IssuesDetails"
+        component={InquiryScreen}
+        options={{
+          title: 'Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
+      <Stack.Screen
+        name="AddIssue"
+        component={createIssue}
+        options={{
+          title: 'Add Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function fourthScreenStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="NotAssIssueScreen"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}
+    >
+      <Stack.Screen
+        name="IssuesDetails"
+        component={InquiryScreen}
+        options={{
+          title: 'Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
+      <Stack.Screen
+        name="NotAssIssueScreen"
+        component={NotAssIssueScreen}
+        options={{
+          title: 'Not Assiging Issues',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -290,6 +374,11 @@ function App() {
           name="DailyUpdate"
           options={{ drawerLabel: 'DailyUpdate' }}
           component={dailyStack}
+        />
+        <Drawer.Screen
+          name="myNotAssigingIssues"
+          options={{ drawerLabel: 'Not Assiging Inquriy' }}
+          component={fourthScreenStack}
         />
       </Drawer.Navigator>
 

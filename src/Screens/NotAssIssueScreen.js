@@ -2,12 +2,10 @@ import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Issues from "../Containers/Issues/Issues";
-import IssueDate from "../data/issueData.json";
-import API from "../../Service/ApiService";
 import { GlobalContext } from "../../Service/GlobalContxt";
-import { getAllFacIssues, getAllNetEngIssues } from "../../Service/ApiService";
+import { getAllNotAssiIssues } from "../../Service/ApiService";
 
-const IssuesScreen = ({ navigation }) => {
+const NotAssIssueScreen = ({ navigation }) => {
   const [AllIssues, setAllIssues] = React.useState();
   const [someId, setSomeId] = React.useState();
   const { State, StateDispatch } = React.useContext(GlobalContext);
@@ -18,11 +16,7 @@ const IssuesScreen = ({ navigation }) => {
     console.log("resact");
     let response;
     try {
-      if (State.userType === "Faculty") {
-        response = await getAllFacIssues(token);
-      } else {
-        response = await getAllNetEngIssues(token);
-      }
+      response = await getAllNotAssiIssues(token);
 
       if (response.success === true) {
         alert(response.message);
@@ -40,7 +34,7 @@ const IssuesScreen = ({ navigation }) => {
 
   // console.log(AllIssues, "AllIssues");
   return (
-    <SafeAreaView style={{ padding: 5, flex: 1, backgroundColor: 'white', }}>
+    <SafeAreaView style={{ padding: 5 }}>
       <ScrollView>
         {AllIssues &&
           AllIssues.map((x, i) => (
@@ -56,6 +50,6 @@ const IssuesScreen = ({ navigation }) => {
   );
 };
 
-export default IssuesScreen;
+export default NotAssIssueScreen;
 
 const styles = StyleSheet.create({});
