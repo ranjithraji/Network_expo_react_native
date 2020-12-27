@@ -319,7 +319,7 @@ function thirdScreen({ navigation }) {
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
         ),
-        headerRight:()=>(<BellIcon nav={navigation}/>),
+        // headerRight:()=>(<BellIcon nav={navigation}/>),
 
         headerStyle: {
           backgroundColor: '#FF9900',
