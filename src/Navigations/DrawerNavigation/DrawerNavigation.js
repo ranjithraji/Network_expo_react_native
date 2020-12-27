@@ -17,6 +17,9 @@ import Notification from '../../Screens/Issues';
 // Import Custom Sidebar
 import CustomSidebarMenu from './CustomSidebarMenu';
 import HomeScreen from '../../Screens/HomeScreen';
+import CreateIssue from '../../Screens/CreateIssue';
+import { createDailyUpdate } from '../../../Service/ApiService';
+import DailyAllUpdateScreen from '../../Screens/DailyAllUpdateScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -78,6 +81,36 @@ const HomeStack = ({ navigation }) => {
           }, //Set Header Title//Set Header Title
         }}
       />
+       <Stack.Screen
+        name="AddInquiry"
+        component={CreateIssue}
+        options={{
+          title: 'Add Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
+       <Stack.Screen
+        name="AddDailyUpdate"
+        component={createDailyUpdate}
+        options={{
+          title: 'Add Daily Updates',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title//Set Header Title
+        }}
+      />
     </Stack.Navigator>
   )
 }
@@ -114,45 +147,46 @@ function firstScreenStack({ navigation }) {
           }, //Set Header Title
         }}
       />
+     
     </Stack.Navigator>
   );
 }
 
-function secondScreenStack({ navigation }) {
-  return (
-    <Stack.Navigator
-      initialRouteName="Issues"
-      screenOptions={{
-        headerLeft: () => (
-          <NavigationDrawerStructure navigationProps={navigation} />
-        ),
-        headerStyle: {
-          backgroundColor: '#FF9900',
-        },
-        headerTitleAlign: 'center',
-        headerTintColor: 'white',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        }, //Set Header Title
-      }}>
-      <Stack.Screen
-        name="Notification"
-        component={Notification}
-        options={({ navigation }) => ({
-          title: 'Notification',
-          headerStyle: {
-            backgroundColor: '#FF9900',
-          },
-          headerTitleAlign: 'center',
-          headerTintColor: 'white',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          }, //Set Header Title
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
+// function secondScreenStack({ navigation }) {
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="Issues"
+//       screenOptions={{
+//         headerLeft: () => (
+//           <NavigationDrawerStructure navigationProps={navigation} />
+//         ),
+//         headerStyle: {
+//           backgroundColor: '#FF9900',
+//         },
+//         headerTitleAlign: 'center',
+//         headerTintColor: 'white',
+//         headerTitleStyle: {
+//           fontWeight: 'bold',
+//         }, //Set Header Title
+//       }}>
+//       <Stack.Screen
+//         name="Notification"
+//         component={Notification}
+//         options={({ navigation }) => ({
+//           title: 'Notification',
+//           headerStyle: {
+//             backgroundColor: '#FF9900',
+//           },
+//           headerTitleAlign: 'center',
+//           headerTintColor: 'white',
+//           headerTitleStyle: {
+//             fontWeight: 'bold',
+//           }, //Set Header Title
+//         })}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function thirdScreen({ navigation }) {
   return (
@@ -190,6 +224,44 @@ function thirdScreen({ navigation }) {
   );
 }
 
+
+function dailyStack({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="DailyUpdate"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}>
+      <Stack.Screen
+        name="DailyUpdate"
+        component={DailyAllUpdateScreen}
+        options={{
+          title: 'DailyUpdate',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title//Set Header Title
+        }}
+      />
+      
+    </Stack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
@@ -217,7 +289,7 @@ function App() {
         <Drawer.Screen
           name="DailyUpdate"
           options={{ drawerLabel: 'DailyUpdate' }}
-          component={secondScreenStack}
+          component={dailyStack}
         />
       </Drawer.Navigator>
 

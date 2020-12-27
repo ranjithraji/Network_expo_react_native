@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         padding:20,
-        shadowColor: "#000",
+        shadowColor: "#0000",
         shadowOffset: {
             width: 0,
             height: 2,

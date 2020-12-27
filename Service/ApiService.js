@@ -1,4 +1,4 @@
-const path = "http://a31422be2792.ngrok.io/v1";
+const path = "http://bc72741f814e.ngrok.io/v1";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -120,6 +120,7 @@ export async function getAllDepartMent() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
     });
 
@@ -199,3 +200,59 @@ export const getIssuesNotified = async () => {
     throw new Error(e.message);
   }
 };
+
+
+export async function createDailyUpdate(token, body) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdate/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getAllFacDailyUpdate(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdates/faculty`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllEngDailyUpdate(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdates/engineer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}

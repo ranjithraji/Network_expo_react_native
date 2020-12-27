@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { getAllDepartMent } from "../../Service/ApiService";
+import { createDailyUpdate, getAllDepartMent } from "../../Service/ApiService";
+import { GlobalContext } from "../../Service/GlobalContxt";
 
-const CreateDailyUpdate = () => {
+const CreateDailyUpdate = ({ navigation }) => {
   const [getDepartment, setGetDepartMent] = useState([])
   const [dailyData, setdailyData] = React.useState({
     department: "",
@@ -15,11 +16,13 @@ const CreateDailyUpdate = () => {
     getAllDepartMentFuc();
   }, [])
 
-  const getAllDepartMentFuc = async (req, res) => {
+  const { State } = React.useContext(GlobalContext);
+  const token = State.token;
+  const getAllDepartMentFuc = async (token) => {
 
     let result
     try {
-      result = await getAllDepartMent();
+      result = await getAllDepartMent(token);
       if (result.success) {
         setGetDepartMent(result.department)
       }
@@ -32,13 +35,24 @@ const CreateDailyUpdate = () => {
 
   const onSubmit = async () => {
     console.log(dailyData, "dailyAbout");
-    //   let response
-    //   try {
+    if (dailyData.department === '' || dailyData.description == '') {
+      alert('Please Enter department and description')
+    }
+    let response
+    try {
+      response = await createDailyUpdate(token, { department: dailyData.department, description: dailyData.description })
+      if (response.success) {
+        alert(response.message)
+        navigation.navigate('MyHome')
+      }
+      else {
+        alert(response.error)
+      }
 
-    //   } catch (error) {
-    //       throw
+    } catch (error) {
+      console.log(error);
 
-    //   }
+    }
   };
   return (
     <View style={{ flex: 1, padding: 35 }}>
@@ -91,7 +105,7 @@ const CreateDailyUpdate = () => {
             }
           >
             {getDepartment && getDepartment.lenght !== 0 && getDepartment.map(data => {
-              return <Picker.Item label={data.name} value={data.name} />
+              return <Picker.Item key={data._id} label={data.name} value={data.name} />
             })}
           </Picker>
         </View>

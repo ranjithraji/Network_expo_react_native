@@ -10,7 +10,7 @@ import { Picker } from "@react-native-picker/picker";
 import { getAllLocations, createIssue } from "../../Service/ApiService";
 import { GlobalContext } from "../../Service/GlobalContxt";
 
-const CreateIssue = () => {
+const CreateIssue = ({navigation}) => {
   const [location, setLocations] = React.useState();
   const { State, StateDispatch } = React.useContext(GlobalContext)
 
@@ -46,13 +46,13 @@ const CreateIssue = () => {
     getAllLocationData();
   }, [someId]);
 
-  const token =State.token;
   const onSubmit = async () => {
     let response;
     try {
       response = await createIssue(token, issueData);
       if (response.success === true) {
         alert(response.message)
+        navigation.navigate('MyHome')
         console.log("sucess", response);
       }
       else{
@@ -90,7 +90,7 @@ const CreateIssue = () => {
                 }
               >
                 {issTypes &&
-                  issTypes.map((x, i) => <Picker.Item label={x} value={x} />)}
+                  issTypes.map((x, i) => <Picker.Item  key={i} label={x} value={x} />)}
               </Picker>
             </View>
           </View>
@@ -119,7 +119,7 @@ const CreateIssue = () => {
               >
                 {location &&
                   location.map((x, i) => (
-                    <Picker.Item label={x.name} value={x.name} />
+                    <Picker.Item key={i} label={x.name} value={x.name} />
                   ))}
               </Picker>
             </View>
@@ -142,6 +142,7 @@ const CreateIssue = () => {
             >
               <TextInput
                 multiline
+                placeholder={'Write your description'}
                 onChangeText={txt =>
                   setIssueData({ ...issueData, description: txt })
                 }
