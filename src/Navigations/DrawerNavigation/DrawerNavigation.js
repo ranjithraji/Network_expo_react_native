@@ -18,12 +18,11 @@ import Notification from '../../Screens/Issues';
 import CustomSidebarMenu from './CustomSidebarMenu';
 import HomeScreen from '../../Screens/HomeScreen';
 import CreateIssue from '../../Screens/CreateIssue';
-import { createDailyUpdate } from '../../../Service/ApiService';
+import CreateDailyUpdate from '../../Screens/CreateDailyUpdate';
 import DailyAllUpdateScreen from '../../Screens/DailyAllUpdateScreen';
 import InquiryScreen from '../../Screens/InquiryScreen';
 import { createIssue } from '../../../Service/ApiService';
 import NotAssIssueScreen from '../../Screens/NotAssIssueScreen';
-
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -101,7 +100,7 @@ const HomeStack = ({ navigation }) => {
       />
        <Stack.Screen
         name="AddDailyUpdate"
-        component={createDailyUpdate}
+        component={CreateDailyUpdate}
         options={{
           title: 'Add Daily Updates',
           headerStyle: {
@@ -112,6 +111,21 @@ const HomeStack = ({ navigation }) => {
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title//Set Header Title
+        }}
+      />
+      <Stack.Screen
+        name="IssuesDetails"
+        component={InquiryScreen}
+        options={{
+          title: 'Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
         }}
       />
     </Stack.Navigator>

@@ -32,8 +32,9 @@ const CreateIssue = ({navigation}) => {
   const getAllLocationData = async () => {
     let response;
     try {
-      response = await getAllLocations();
+      response = await getAllLocations(token);
       if (response.success === true) {
+        console.log('Location',response);
         setLocations(response.Location);
         // getAllDeparts();
       }

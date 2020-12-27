@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Dimensions, TouchableWithoutFeedback } from 'react-native'
-import { getAllDepartMent, getAllFacDailyUpdate, getAllFacIssues } from '../../Service/ApiService'
+import { getAllDepartMent, getAllEngDailyUpdate, getAllFacDailyUpdate, getAllFacIssues, getAllNetEngIssues } from '../../Service/ApiService'
 import { GlobalContext } from '../../Service/GlobalContxt'
 import IssueCard from '../Containers/IssueCard/IssueCard';
 import moment from 'moment'
 import Button from '../Components/Button/Button'
 import DailyUpdateScreen from './dailyUpdateScreen';
+import Issues from '../Containers/Issues/Issues';
 const userType = ['Network_Admin', 'Network_Engineer', 'Faculty']
 const HomeScreen = ({ navigation }) => {
     const [issues, setIssues] = useState([]);
@@ -25,8 +26,9 @@ const HomeScreen = ({ navigation }) => {
             await getAllFacDailyUpdateFuc(token)
             await getAllFacIssuesFuc(token)
         }
-        else {
-
+        else if (State.userType === userType[1]) {
+            getAllENGIssuesFuc(token);
+            getAllEngDailyUpdateFuc(token)
         }
     }
 
@@ -45,10 +47,41 @@ const HomeScreen = ({ navigation }) => {
         }
     }
 
+    const getAllEngDailyUpdateFuc = async (token) => {
+        let result
+        try {
+            result = await getAllEngDailyUpdate(token)
+            if (result.success) {
+                setDailyupdate(result.dailyUpdate)
+            }
+            else {
+                alert(result.error)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getAllFacIssuesFuc = async (token) => {
         let result
         try {
             result = await getAllFacIssues(token)
+            if (result.success) {
+                setIssues(result.issues)
+            }
+            else {
+                alert(result.error)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    const getAllENGIssuesFuc = async (token) => {
+        let result
+        try {
+            result = await getAllNetEngIssues(token)
             if (result.success) {
                 setIssues(result.issues)
             }
@@ -87,9 +120,9 @@ const HomeScreen = ({ navigation }) => {
                             }
                         </View>
                     </View>
-                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, marginTop: 20, height: Dimensions.get('window').height / 1.8 }}>
+                    <View style={{ flex: 1, backgroundColor: 'white', padding: 10, marginTop: 20, height: 'auto' }}>
                         <View style={{ flex: 1, backgroundColor: 'white' }}>
-                            <View style={{ flex: issues && issues.length !== 0 ? 1 : 0.2, backgroundColor: 'white', flexDirection: 'row' }}>
+                            <View style={{ flex: issues && issues.length !== 0.2 ? 1 : 0.2, backgroundColor: 'white', flexDirection: 'row', marginBottom: 10 }}>
                                 <Text style={{ flex: 1, textAlign: 'left', fontWeight: 'bold', fontSize: 18 }}>
                                     {"Your recent Inquiry"}
                                 </Text>
@@ -100,11 +133,11 @@ const HomeScreen = ({ navigation }) => {
                                 </TouchableWithoutFeedback>
                             </View>
                             {issues && issues.length !== 0 ?
-                                <IssueCard
+                                <Issues navigation={navigation}
                                     data={issues[0]}
                                 />
                                 :
-                                <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'row' }}>
+                                <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'row', height: Dimensions.get('window').height / 2 }}>
                                     <View style={{ flex: 1, backgroundColor: 'white', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', alignContent: 'center', ...styles.boxShadow }}>
                                         <Text style={{ fontSize: 19, fontWeight: '400' }}>No daily Update</Text>
                                     </View>
@@ -123,9 +156,9 @@ const HomeScreen = ({ navigation }) => {
                                     alignItems: "center",
                                     borderRadius: 5,
                                 }}
-                                onPress={() => { State.userType != userType[2] ? navigation.navigate('AddInquiry') : State.userType !== userType[0] && navigation.navigate('AddDailyUpdate') }}
+                                onPress={() => { State.userType === userType[2] ? navigation.navigate('AddInquiry') : State.userType === userType[1] && navigation.navigate('AddDailyUpdate') }}
                             >
-                                <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }} > {State.userType !== userType[2] ? 'Add Inquiry' : State.userType !== userType[0] && 'Add DailyUpdates'} </Text>
+                                <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }} > {State.userType === userType[2] ? 'Add Inquiry' : State.userType === userType[1] && 'Add DailyUpdates'} </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

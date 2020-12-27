@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { createDailyUpdate, getAllDepartMent } from "../../Service/ApiService";
+import { addDailyUpdate, getAllDepartMent } from "../../Service/ApiService";
 import { GlobalContext } from "../../Service/GlobalContxt";
 
 const CreateDailyUpdate = ({ navigation }) => {
@@ -12,10 +12,6 @@ const CreateDailyUpdate = ({ navigation }) => {
     description: "",
   });
 
-  React.useEffect(() => {
-    getAllDepartMentFuc();
-  }, [])
-
   const { State } = React.useContext(GlobalContext);
   const token = State.token;
   const getAllDepartMentFuc = async (token) => {
@@ -24,6 +20,7 @@ const CreateDailyUpdate = ({ navigation }) => {
     try {
       result = await getAllDepartMent(token);
       if (result.success) {
+        console.log(result.department, 'qwqwqwq');
         setGetDepartMent(result.department)
       }
 
@@ -32,26 +29,33 @@ const CreateDailyUpdate = ({ navigation }) => {
     }
 
   }
+  const [someId, setSomeId] = React.useState();
+
+  React.useEffect(() => {
+    getAllDepartMentFuc();
+  }, [someId])
 
   const onSubmit = async () => {
     console.log(dailyData, "dailyAbout");
     if (dailyData.department === '' || dailyData.description == '') {
       alert('Please Enter department and description')
     }
-    let response
-    try {
-      response = await createDailyUpdate(token, { department: dailyData.department, description: dailyData.description })
-      if (response.success) {
-        alert(response.message)
-        navigation.navigate('MyHome')
-      }
-      else {
-        alert(response.error)
-      }
+    else {
+      let response
+      try {
+        response = await addDailyUpdate(token, { department: dailyData.department, description: dailyData.description })
+        if (response.success) {
+          alert(response.message)
+          navigation.navigate('MyHome')
+        }
+        else {
+          alert(response.error)
+        }
 
-    } catch (error) {
-      console.log(error);
+      } catch (error) {
+        console.log(error);
 
+      }
     }
   };
   return (
@@ -72,6 +76,7 @@ const CreateDailyUpdate = ({ navigation }) => {
           }}
         >
           <TextInput
+            placeholder={'Write your description'}
             multiline
             onChangeText={txt =>
               setdailyData({ ...dailyData, description: txt })
@@ -104,9 +109,9 @@ const CreateDailyUpdate = ({ navigation }) => {
               setdailyData({ ...dailyData, department: data })
             }
           >
-            {getDepartment && getDepartment.lenght !== 0 && getDepartment.map(data => {
-              return <Picker.Item key={data._id} label={data.name} value={data.name} />
-            })}
+            {getDepartment && getDepartment.map((data, i) =>
+              <Picker.Item key={i} label={data.name} value={data.name} />
+            )}
           </Picker>
         </View>
         <View

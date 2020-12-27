@@ -172,7 +172,6 @@ export async function getAllDepartMent() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
       },
     });
 
@@ -222,6 +221,67 @@ export async function createIssue(token, body) {
   }
 }
 
+export async function assignIssuse(token, body, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/engineer/assign/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function completeIssuse(token, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/engineer/complete/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      }
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function verifyIssuse(token, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/faculty/verify/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      }
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+
 // const URL = 'http://192.168.43.207:2000'
 export const getIssuesNotified = async () => {
   let response;
@@ -254,7 +314,7 @@ export const getIssuesNotified = async () => {
 };
 
 
-export async function createDailyUpdate(token, body) {
+export async function addDailyUpdate(token, body) {
   let response;
   try {
     response = await fetch(`${path}/dailyupdate/add`, {
@@ -308,3 +368,4 @@ export async function getAllEngDailyUpdate(token) {
     throw error;
   }
 }
+
