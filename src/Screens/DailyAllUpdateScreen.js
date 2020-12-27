@@ -19,9 +19,7 @@ const DailyAllUpdateScreen = () => {
     }, [])
 
     const getFuc = async (token) => {
-        if (State.userType === userType[2]) {
             await getAllFacDailyUpdateFuc(token)
-        }
     }
 
     const getAllFacDailyUpdateFuc = async (token) => {
@@ -46,7 +44,7 @@ const DailyAllUpdateScreen = () => {
     }
     const _renderer = (i) => {
         return (
-            State.userType === userType[1] ?
+             State.userType === userType[1] ?
                 <DailyUpdateScreen daily={true}
                     data={dailyupdate[i]}
                 />
@@ -59,7 +57,7 @@ const DailyAllUpdateScreen = () => {
     }
     return (
         <View style={{ flex: 1, padding: 10, backgroundColor: 'white', }}>
-            <View style={{ flex: 0.8,  padding: 10, marginTop: 20 }}>
+            <View style={{ flex: 0.8, padding: 10, marginTop: 20 }}>
                 <FlatList
                     data={dailyupdate}
                     keyExtractor={(item) => item._id}

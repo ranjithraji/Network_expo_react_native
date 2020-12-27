@@ -5,9 +5,9 @@ import { GlobalContext } from '../../Service/GlobalContxt'
 
 const dailyUpdateScreen = (props) => {
 
-    const { data } = props
+    const { data, daily } = props
     const userType = ['Network_Admin', 'Network_Engineer', 'Faculty']
-    const { State, daily } = React.useContext(GlobalContext)
+    const { State } = React.useContext(GlobalContext)
 
     return (
         <View style={{ flex: 0.8, backgroundColor: 'white', flexDirection: 'row', margin: 5 }}>
