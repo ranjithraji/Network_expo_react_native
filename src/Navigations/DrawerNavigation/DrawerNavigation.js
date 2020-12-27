@@ -4,7 +4,7 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image, Pressable } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -20,7 +20,7 @@ import HomeScreen from '../../Screens/HomeScreen';
 import InquiryScreen from '../../Screens/InquiryScreen';
 import { createIssue } from '../../../Service/ApiService';
 import NotAssIssueScreen from '../../Screens/NotAssIssueScreen';
-
+import { Ionicons } from '@expo/vector-icons'; 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -47,6 +47,20 @@ const NavigationDrawerStructure = (props) => {
   );
 };
 
+const BellIcon =({nav}) =>{
+  const navToNotify =()=>{
+    nav.navigate('Notification');
+  }
+  return (
+    <View style={{ flexDirection: 'row' ,paddingEnd:10}}>
+      <TouchableOpacity onPress={navToNotify}>
+        {/*Donute Button Image */}
+        <Ionicons name={'ios-notifications-outline'} size={30} color={'white'} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
 const HomeStack = ({ navigation }) => {
   return (
     <Stack.Navigator
@@ -56,6 +70,7 @@ const HomeStack = ({ navigation }) => {
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
         ),
+        headerRight:() => (<BellIcon nav={navigation}/>),
         headerStyle: {
           backgroundColor: '#FF9900',
         },
@@ -74,6 +89,7 @@ const HomeStack = ({ navigation }) => {
           headerStyle: {
             backgroundColor: '#FF9900',
           },
+          headerRight:()=>(<BellIcon nav={navigation}/>),
           headerTitleAlign: 'center',
           headerTintColor: 'white',
           headerTitleStyle: {
@@ -92,6 +108,7 @@ function firstScreenStack({ navigation }) {
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
         ),
+        headerRight:()=>(<BellIcon nav={navigation}/>),
         headerStyle: {
           backgroundColor: '#FF9900',
         },
@@ -115,6 +132,7 @@ function firstScreenStack({ navigation }) {
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title
+          headerRight:()=>(<BellIcon nav={navigation}/>),
         }}
       />
       <Stack.Screen
@@ -130,6 +148,7 @@ function firstScreenStack({ navigation }) {
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title
+          headerRight:()=>(<BellIcon nav={navigation}/>),
         }}
       />
       <Stack.Screen
@@ -145,6 +164,7 @@ function firstScreenStack({ navigation }) {
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title
+          headerRight:()=>(<BellIcon nav={navigation}/>),
         }}
       />
     </Stack.Navigator>
@@ -166,6 +186,7 @@ function fourthScreenStack({ navigation }) {
         headerTitleStyle: {
           fontWeight: 'bold',
         }, //Set Header Title
+        headerRight:()=>(<BellIcon nav={navigation}/>),
       }}
     >
       <Stack.Screen
@@ -174,13 +195,14 @@ function fourthScreenStack({ navigation }) {
         options={{
           title: 'Inquiry',
           headerStyle: {
-            backgroundColor: '#FF9900',
+            backgroundColor: 'red',
           },
           headerTitleAlign: 'center',
           headerTintColor: 'white',
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title
+          headerRight:()=>(<BellIcon nav={navigation}/>),
         }}
       />
       <Stack.Screen
@@ -196,6 +218,8 @@ function fourthScreenStack({ navigation }) {
           headerTitleStyle: {
             fontWeight: 'bold',
           }, //Set Header Title
+          headerRight:()=>(<BellIcon nav={navigation}/>),
+
         }}
       />
     </Stack.Navigator>
@@ -211,6 +235,8 @@ function secondScreenStack({ navigation }) {
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
         ),
+        headerRight:()=>(<BellIcon nav={navigation}/>),
+
         headerStyle: {
           backgroundColor: '#FF9900',
         },
@@ -228,6 +254,8 @@ function secondScreenStack({ navigation }) {
           headerStyle: {
             backgroundColor: '#FF9900',
           },
+         
+
           headerTitleAlign: 'center',
           headerTintColor: 'white',
           headerTitleStyle: {
@@ -247,6 +275,8 @@ function thirdScreen({ navigation }) {
         headerLeft: () => (
           <NavigationDrawerStructure navigationProps={navigation} />
         ),
+        headerRight:()=>(<BellIcon nav={navigation}/>),
+
         headerStyle: {
           backgroundColor: '#FF9900',
         },
@@ -264,6 +294,8 @@ function thirdScreen({ navigation }) {
           headerStyle: {
             backgroundColor: '#FF9900',
           },
+       
+
           headerTitleAlign: 'center',
           headerTintColor: 'white',
           headerTitleStyle: {
