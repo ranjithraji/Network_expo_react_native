@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TextInput } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import StatusBar from "../Components/StatusBar/StatusBar";
-import { getOneFacIssues } from "../../Service/ApiService";
+import { getOneFacIssues, getOneNetIssues } from "../../Service/ApiService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GlobalContext } from "../../Service/GlobalContxt";
+import IssueUser from "../Containers/IssueAction/IssueUser";
+import IssueVerifyBtn from "../Containers/IssueAction/IssueVerifyBtn";
+import IssueAdmin from "../Containers/IssueAction/IssueAdmin";
+import IssueCompleteBtn from "../Containers/IssueAction/IssueCompleteBtn";
 
-const InquiryScreen = () => {
+const InquiryScreen = ({ route }) => {
+  const { id } = route.params;
   const [inquiry, setInquiry] = useState();
   const [someId, setSomeId] = React.useState();
 
-  const token =AsyncStorage.getItem('token')
+  const { State } = React.useContext(GlobalContext);
+  const { userType } = State;
 
   const getOneInquiry = async () => {
     let response;
     try {
-      response = await getOneFacIssues(token, "5fe6de99814a23125fd893d0");
-      // console.log(response, "response");
+      if (userType === "Faculty") {
+        console.log('hello');
+        response = await getOneFacIssues(State.token, id);
+      }
+      if (userType !== "Faculty") {
+        response = await getOneNetIssues(State.token, id);
+      }
+      
       if (response.success === true) {
         setInquiry(response.issues);
       }
@@ -27,11 +39,10 @@ const InquiryScreen = () => {
   React.useEffect(() => {
     getOneInquiry();
   }, [someId]);
+
   return (
     <SafeAreaView style={{ padding: 0 }}>
-      <ScrollView
-        style={{ paddingVertical: 10, borderWidth: 1, height: "100%" }}
-      >
+      <ScrollView style={{ paddingVertical: 10, height: "100%" }}>
         {inquiry && (
           <View style={style.issueCard}>
             <View style={{ paddingVertical: 10 }}>
@@ -58,7 +69,9 @@ const InquiryScreen = () => {
                   paddingHorizontal: 20,
                   borderWidth: 1,
                   marginTop: 40,
-                  borderRadius: 10,
+                  borderWidth: 1.5,
+                  borderColor: "#d2d2d2",
+                  borderRadius: 20,
                 }}
               >
                 <View
@@ -73,7 +86,9 @@ const InquiryScreen = () => {
                   </View>
                   <View style={style.dataRow}>
                     <Text style={style.dataValueRow}>
-                      {inquiry.assignedBy ? inquiry.assignedBy.userName : "Not Assigned"}
+                      {inquiry.assignedBy
+                        ? inquiry.assignedBy.userName
+                        : "Not Assigned"}
                     </Text>
                   </View>
                 </View>
@@ -107,10 +122,11 @@ const InquiryScreen = () => {
                   </View>
                   <View
                     style={{
-                      borderWidth: 1,
                       top: 10,
                       height: 160,
-                      borderRadius: 10,
+                      borderWidth: 1.5,
+                      borderColor: "#d2d2d2",
+                      borderRadius: 20,
                       padding: 10,
                     }}
                   >
@@ -118,87 +134,15 @@ const InquiryScreen = () => {
                   </View>
                 </View>
               </View>
-
-              <View
-                style={{
-                  flexDirection: "column",
-                  marginTop: 10,
-                  marginBottom: 20,
-                }}
-              >
-                <View style={{ width: 180, padding: 10 }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      letterSpacing: 1,
-                    }}
-                  >
-                    Issue assigned To :
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    top: 10,
-                    height: 50,
-                    borderRadius: 10,
-                    padding: 10,
-                  }}
-                >
-                  <Text style={{ textAlign: "center" }}>Mr. Manitanace</Text>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginTop: 10,
-                  // marginBottom: 20,
-                }}
-              >
-                <View style={{ width: 180, padding: 10 }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      letterSpacing: 1,
-                    }}
-                  >
-                    Issue status :
-                  </Text>
-                </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <StatusBar status={inquiry.status} />
-                </View>
-              </View>
-            </View>
-
-            <View style={{ paddingHorizontal: 10, flexDirection: "row" }}>
-              <View>
-                <Text>*Your Issue Has Been Fixed.</Text>
-                <Text>Please Confirm to Verify</Text>
-              </View>
-              <View style={{ padding: 20 }}>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "#1E538F",
-                    width: 120,
-                    height: 42,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
-                >
-                  <Text
-                    style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}
-                  >
-                    Verify
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              {userType === "Faculty" ? (
+                <IssueUser status={inquiry.status} />
+              ) : (
+                <IssueAdmin />
+              )}
+              {userType === "Faculty" && inquiry.status === "Complete" && (
+                <IssueVerifyBtn />
+              )}
+              {userType !== "Faculty" && inquiry.status === "In Progress" && <IssueCompleteBtn />}
             </View>
           </View>
         )}
@@ -221,7 +165,14 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "flex-end",
   },
-  dataRow: { width: 170, height: 25, borderRadius: 5, borderWidth: 1 },
+  dataRow: {
+    width: 170,
+    height: 25,
+    borderRadius: 5,
+    borderWidth: 1.5,
+    borderColor: "#d2d2d2",
+    borderRadius: 5,
+  },
   rowView: {
     flexDirection: "row",
     justifyContent: "space-around",

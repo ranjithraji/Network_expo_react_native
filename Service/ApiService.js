@@ -1,4 +1,4 @@
-const path = "http://a31422be2792.ngrok.io/v1";
+const path = "http://192.168.43.213:2000/v1";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -94,6 +94,39 @@ export async function getAllFacIssues(token) {
     throw error;
   }
 }
+export async function getAllNetEngIssues(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/issues/engineers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllNotAssiIssues(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/issues/engineer/notassign`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getOneFacIssues(token, id) {
   let response;
@@ -105,6 +138,25 @@ export async function getOneFacIssues(token, id) {
         Authorization: token,
       },
     });
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOneNetIssues(token, id) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/engineer/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
     if (response) {
       return response.json();
     }
@@ -199,3 +251,4 @@ export const getIssuesNotified = async () => {
     throw new Error(e.message);
   }
 };
+

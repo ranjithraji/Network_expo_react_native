@@ -16,7 +16,7 @@ const LoginScreen = () => {
     if (value !== null) {
       try {
         const response = await Profile(value);
-        console.log(response);
+        console.log(response, "RESPONSE");
         if (response.success === true) {
           await state.StateDispatch({
             type: "LOGIN",

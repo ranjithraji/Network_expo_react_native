@@ -17,7 +17,7 @@ const Store = ({ children }) => {
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  console.log(state, "globalstate")
+  // console.log(state, "globalstate")
   return (
     <>
       <GlobalContext.Provider value={{ State: state, StateDispatch: dispatch }}>
