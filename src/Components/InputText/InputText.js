@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     container:{
         borderRadius:20,
         height:40,
+        backgroundColor:'white',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -27,5 +28,14 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
 
-    }
+    },
+    boxShadow: {
+        flexDirection: 'row',
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 6,
+        shadowOpacity: 0.66,
+        elevation: 3,
+        borderRadius: 10,
+    },
 })

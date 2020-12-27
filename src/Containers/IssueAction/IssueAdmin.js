@@ -1,8 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { GlobalContext } from "../../../Service/GlobalContxt";
+import CustomDatePicker from "../../Components/DatePicker/DatePicker";
+import moment from 'moment'
+import { useNavigation } from '@react-navigation/native'
+import { assignIssuse } from "../../../Service/ApiService";
 
-const IssueAdmin = () => {
+const IssueAdmin = ({ id }) => {
+  const [dateDue, setDateDue] = React.useState(new Date());
+  const [dateStringDue, setDateStringDue] = React.useState('');
+  const { State } = React.useContext(GlobalContext);
+  const [showForm, setShowForm] = useState(false);
+  const navigation = useNavigation()
+  const [showDue, setShowDue] = useState(false);
+
+
+  const onChangeDue = (event, selectedDate) => {
+    setShowDue(false)
+    console.log(selectedDate, 'hh')
+    setDateStringDue(moment(selectedDate).format('DD/MM/YYYY') || moment(new Date()).format('DD/MM/YYYY'));
+    setDateDue(selectedDate || new Date());
+  }
+  const showOverlayDue = () => {
+    setShowDue(true)
+  }
+  const assignFuc = async () => {
+    if (dateStringDue === '') {
+      alert('Please select the reporting date')
+    }
+    else {
+      let result
+      try {
+        result = await assignIssuse(State.token, { "reportingAt": dateStringDue }, id)
+        if (result.success) {
+          await alert(result.message)
+          await navigation.navigate('MyHome')
+        }
+        else {
+          alert(result.error)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <React.Fragment>
       <View
@@ -29,20 +72,19 @@ const IssueAdmin = () => {
             borderColor: "#d2d2d2",
             borderRadius: 20,
             top: 10,
-            height: 50,
-
-            padding: 10,
+            height: 45,
+            padding: 8,
           }}
         >
-          <Text style={{ textAlign: "center" }}>Mr. Manitanace</Text>
+          <Text style={{ textAlign: "center", fontSize: 18 }}>{State && State.user && State.user.userName}</Text>
         </View>
       </View>
       <View style={style.rowView}>
         <View style={style.dataHeadRow}>
           <Text style={style.dataHeadRowText}>Reporting At:</Text>
         </View>
-        <View style={style.dataRow}>
-          <Text style={style.dataValueRow}>{"rama"}</Text>
+        <View >
+          <CustomDatePicker onChange={(event, selectedDate) => onChangeDue(event, selectedDate)} dateString={dateStringDue} date={dateDue} show={showDue} showOverlay={() => showOverlayDue()} placeholder={'Reporting Date eg: 641605'} />
         </View>
       </View>
       <View
@@ -61,6 +103,7 @@ const IssueAdmin = () => {
           }}
         >
           <TouchableOpacity
+            onPress={() => { assignFuc() }}
             style={{
               backgroundColor: "#1E538F",
               width: 120,
@@ -101,6 +144,15 @@ const style = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     letterSpacing: 1,
+  },
+  boxShadow: {
+    flexDirection: 'row',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    shadowOpacity: 0.66,
+    elevation: 3,
+    borderRadius: 10,
   },
   dataValueRow: { fontSize: 12, textAlign: "left", paddingLeft: 20, top: 3 },
 });

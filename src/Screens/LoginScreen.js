@@ -12,12 +12,13 @@ const LoginScreen = () => {
   const state = React.useContext(GlobalContext);
 
   const getToken = async () => {
-    const value =await  AsyncStorage.getItem("token");
+    const value = await AsyncStorage.getItem("token");
     if (value !== null) {
       try {
         const response = await Profile(value);
         console.log(response, "RESPONSE");
         if (response.success === true) {
+          await AsyncStorage.setItem("userToken", response.user.userType);
           await state.StateDispatch({
             type: "LOGIN",
             payload: { user: response.user, token: value },

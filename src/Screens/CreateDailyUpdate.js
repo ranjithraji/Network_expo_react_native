@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { getAllDepartMent } from "../../Service/ApiService";
+import { addDailyUpdate, getAllDepartMent } from "../../Service/ApiService";
+import { GlobalContext } from "../../Service/GlobalContxt";
 
-const CreateDailyUpdate = () => {
+const CreateDailyUpdate = ({ navigation }) => {
   const [getDepartment, setGetDepartMent] = useState([])
   const [dailyData, setdailyData] = React.useState({
     department: "",
     description: "",
   });
 
-  React.useEffect(() => {
-    getAllDepartMentFuc();
-  }, [])
-
-  const getAllDepartMentFuc = async (req, res) => {
+  const { State } = React.useContext(GlobalContext);
+  const token = State.token;
+  const getAllDepartMentFuc = async (token) => {
 
     let result
     try {
-      result = await getAllDepartMent();
+      result = await getAllDepartMent(token);
       if (result.success) {
+        console.log(result.department, 'qwqwqwq');
         setGetDepartMent(result.department)
       }
 
@@ -29,16 +29,34 @@ const CreateDailyUpdate = () => {
     }
 
   }
+  const [someId, setSomeId] = React.useState();
+
+  React.useEffect(() => {
+    getAllDepartMentFuc();
+  }, [someId])
 
   const onSubmit = async () => {
     console.log(dailyData, "dailyAbout");
-    //   let response
-    //   try {
+    if (dailyData.department === '' || dailyData.description == '') {
+      alert('Please Enter department and description')
+    }
+    else {
+      let response
+      try {
+        response = await addDailyUpdate(token, { department: dailyData.department, description: dailyData.description })
+        if (response.success) {
+          alert(response.message)
+          navigation.navigate('MyHome')
+        }
+        else {
+          alert(response.error)
+        }
 
-    //   } catch (error) {
-    //       throw
+      } catch (error) {
+        console.log(error);
 
-    //   }
+      }
+    }
   };
   return (
     <View style={{ flex: 1, padding: 35 }}>
@@ -58,6 +76,7 @@ const CreateDailyUpdate = () => {
           }}
         >
           <TextInput
+            placeholder={'Write your description'}
             multiline
             onChangeText={txt =>
               setdailyData({ ...dailyData, description: txt })
@@ -90,9 +109,9 @@ const CreateDailyUpdate = () => {
               setdailyData({ ...dailyData, department: data })
             }
           >
-            {getDepartment && getDepartment.lenght !== 0 && getDepartment.map(data => {
-              return <Picker.Item label={data.name} value={data.name} />
-            })}
+            {getDepartment && getDepartment.map((data, i) =>
+              <Picker.Item key={i} label={data.name} value={data.name} />
+            )}
           </Picker>
         </View>
         <View

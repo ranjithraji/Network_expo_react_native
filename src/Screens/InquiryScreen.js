@@ -11,7 +11,7 @@ import IssueCompleteBtn from "../Containers/IssueAction/IssueCompleteBtn";
 
 const InquiryScreen = ({ route }) => {
   const { id } = route.params;
-  const [inquiry, setInquiry] = useState();
+  const [inquiry, setInquiry] = React.useState();
   const [someId, setSomeId] = React.useState();
 
   const { State } = React.useContext(GlobalContext);
@@ -136,13 +136,13 @@ const InquiryScreen = ({ route }) => {
               </View>
               {userType === "Faculty" ? (
                 <IssueUser status={inquiry.status} />
-              ) : (
-                <IssueAdmin />
+              ) : (userType !== "Faculty" && inquiry.status === "Not Assign" &&
+                <IssueAdmin id={inquiry._id} />
               )}
               {userType === "Faculty" && inquiry.status === "Complete" && (
-                <IssueVerifyBtn />
+                <IssueVerifyBtn id={inquiry._id} />
               )}
-              {userType !== "Faculty" && inquiry.status === "In Progress" && <IssueCompleteBtn />}
+              {userType !== "Faculty" && inquiry.status === "In Progress" && <IssueCompleteBtn id={inquiry._id} />}
             </View>
           </View>
         )}

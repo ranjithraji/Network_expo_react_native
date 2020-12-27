@@ -221,6 +221,67 @@ export async function createIssue(token, body) {
   }
 }
 
+export async function assignIssuse(token, body, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/engineer/assign/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function completeIssuse(token, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/engineer/complete/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      }
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function verifyIssuse(token, issueId) {
+  let response;
+  try {
+    response = await fetch(`${path}/issue/faculty/verify/${issueId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      }
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+
 // const URL = 'http://192.168.43.207:2000'
 export const getIssuesNotified = async () => {
   let response;
@@ -251,4 +312,60 @@ export const getIssuesNotified = async () => {
     throw new Error(e.message);
   }
 };
+
+
+export async function addDailyUpdate(token, body) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdate/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (response) {
+      return response.json();
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function getAllFacDailyUpdate(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdates/faculty`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getAllEngDailyUpdate(token) {
+  let response;
+  try {
+    response = await fetch(`${path}/dailyupdates/engineer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+}
 

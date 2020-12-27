@@ -40,7 +40,7 @@ const IssuesScreen = ({ navigation }) => {
 
   // console.log(AllIssues, "AllIssues");
   return (
-    <SafeAreaView style={{ padding: 5 }}>
+    <SafeAreaView style={{ padding: 5, flex: 1, backgroundColor: 'white', }}>
       <ScrollView>
         {AllIssues &&
           AllIssues.map((x, i) => (
