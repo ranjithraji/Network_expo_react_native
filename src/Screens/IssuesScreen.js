@@ -4,14 +4,15 @@ import { ScrollView } from "react-native-gesture-handler";
 import Issues from "../Containers/Issues/Issues";
 import IssueDate from "../data/issueData.json";
 import API from "../../Service/ApiService";
+import { GlobalContext } from '../../Service/GlobalContxt'
 import { getAllFacIssues } from "../../Service/ApiService";
 
 const IssuesScreen = () => {
   const [AllIssues, setAllIssues] = React.useState();
   const [someId, setSomeId] = React.useState();
+  const { State, StateDispatch } = React.useContext(GlobalContext)
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWZlNmRjNWU4N2E2MTI2NGRjODViZTY1IiwiaWF0IjoxNjA4OTY1NjcxLCJleHAiOjE2MDkxNjU2NzF9.iCvGvGYOxbjpPOpDlMvzpuUzOqw14_ffRmoWkVDVZ5Q";
+  const token = State.token
 
   const fetchData = async () => {
     console.log("resact");
@@ -19,7 +20,11 @@ const IssuesScreen = () => {
     try {
       response = await getAllFacIssues(token);
       if (response.success === true) {
+        alert(response.message)
         setAllIssues(response.issues);
+      }
+      else {
+        alert(response.error)
       }
     } catch (error) {
       throw error;

@@ -3,13 +3,13 @@ import { SafeAreaView, StyleSheet, Text, View, TextInput } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import StatusBar from "../Components/StatusBar/StatusBar";
 import { getOneFacIssues } from "../../Service/ApiService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const InquiryScreen = () => {
   const [inquiry, setInquiry] = useState();
   const [someId, setSomeId] = React.useState();
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWZlNmRjNWU4N2E2MTI2NGRjODViZTY1IiwiaWF0IjoxNjA4OTY1NjcxLCJleHAiOjE2MDkxNjU2NzF9.iCvGvGYOxbjpPOpDlMvzpuUzOqw14_ffRmoWkVDVZ5Q";
+  const token =AsyncStorage.getItem('token')
 
   const getOneInquiry = async () => {
     let response;

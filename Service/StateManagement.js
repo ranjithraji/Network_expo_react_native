@@ -5,6 +5,7 @@ export const reducer = (state, action) => {
         const user = action.payload.user;
         return {
           ...state,
+          isLoading:false,
           Auth: true,
           token: action.payload.token,
           active: true,
@@ -17,7 +18,16 @@ export const reducer = (state, action) => {
             verify: user.verify,
             userType: user.userType
           },
+          userType: user.userType
         }; 
+        case 'LOGOUT':
+          return {
+            isLoading:false,
+            Auth: false,
+            token: null,
+            active: false,
+            user: {}
+          }; 
       default:
         throw new Error('Action type must be defined');
     }

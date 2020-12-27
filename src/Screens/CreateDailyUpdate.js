@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { getAllDepartMent } from "../../Service/ApiService";
 
 const CreateDailyUpdate = () => {
+  const [getDepartment, setGetDepartMent] = useState([])
   const [dailyData, setdailyData] = React.useState({
     department: "",
     description: "",
   });
+
+  React.useEffect(() => {
+    getAllDepartMentFuc();
+  }, [])
+
+  const getAllDepartMentFuc = async (req, res) => {
+
+    let result
+    try {
+      result = await getAllDepartMent();
+      if (result.success) {
+        setGetDepartMent(result.department)
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
   const onSubmit = async () => {
     console.log(dailyData, "dailyAbout");
@@ -69,9 +90,9 @@ const CreateDailyUpdate = () => {
               setdailyData({ ...dailyData, department: data })
             }
           >
-            <Picker.Item label={"jjn"} value={"jik"} />
-            <Picker.Item label={"jtfufujjjn"} value={"jihhhk"} />
-            <Picker.Item label={"jjnhhhhihohwwq"} value={"jihhhhk"} />
+            {getDepartment && getDepartment.lenght !== 0 && getDepartment.map(data => {
+              return <Picker.Item label={data.name} value={data.name} />
+            })}
           </Picker>
         </View>
         <View

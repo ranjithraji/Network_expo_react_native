@@ -4,12 +4,13 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Verify } from "../../Service/ApiService";
 import AsyncStorage from "@react-native-community/async-storage";
 
-const VerifyScreen = () => {
+const VerifyScreen = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [cPassword, setCPassword] = useState("");
   const [code, setCode] = useState(0);
   const [aCode, setACode] = useState("");
   const [err, setErr] = useState("");
+
 
   const verify = async () => {
     if (password !== cPassword) {
@@ -29,6 +30,10 @@ const VerifyScreen = () => {
           console.log(response);
           if (response) {
             if (response.success) {
+              await  navigation.navigate('SingUp')
+            }
+            else{
+              alert(response.error)
             }
           }
         } catch (e) {

@@ -1,6 +1,6 @@
-const path = "http://7959801ff45c.ngrok.io/v1";
+const path = "http://a31422be2792.ngrok.io/v1";
 
-const AsyncStorage = require("@react-native-async-storage/async-storage");
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const token = AsyncStorage.getItem("token");
 

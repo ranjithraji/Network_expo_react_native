@@ -8,9 +8,14 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { getAllLocations, createIssue } from "../../Service/ApiService";
+import { GlobalContext } from "../../Service/GlobalContxt";
 
 const CreateIssue = () => {
   const [location, setLocations] = React.useState();
+  const { State, StateDispatch } = React.useContext(GlobalContext)
+
+  const token = State.token
+
   const [issueData, setIssueData] = React.useState({
     issueType: "",
     location: "",
@@ -41,15 +46,17 @@ const CreateIssue = () => {
     getAllLocationData();
   }, [someId]);
 
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWZlNmRjNWU4N2E2MTI2NGRjODViZTY1IiwiaWF0IjoxNjA4OTY1NjcxLCJleHAiOjE2MDkxNjU2NzF9.iCvGvGYOxbjpPOpDlMvzpuUzOqw14_ffRmoWkVDVZ5Q";
-
+  const token =State.token;
   const onSubmit = async () => {
     let response;
     try {
       response = await createIssue(token, issueData);
       if (response.success === true) {
+        alert(response.message)
         console.log("sucess", response);
+      }
+      else{
+        alert(response.error)
       }
     } catch (error) {
       throw error;

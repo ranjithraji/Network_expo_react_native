@@ -4,17 +4,23 @@ import NavigationContainer from '@react-navigation/native';
 import Drawer from '../Navigations/DrawerNavigation/DrawerNavigation'
 import Store, { GlobalContext } from '../../Service/GlobalContxt';
 import StraupStackNavigation from '../Navigations/StackNavigation/StackNavigation';
-import CallingRoot from './CallingRoot'
+import Loading from '../Screens/Loading';
 
-const MainScreen = ({ children }) => {
+const CallingRoot = () => {
 
+    const { State } = React.useContext(GlobalContext);
+    console.log(State, 'State');
     return (
-        <Store>
-            <CallingRoot />
-        </Store>
+        <>
+            {State && State.Auth ?
+                < Drawer />
+                :
+                <StraupStackNavigation />
+            }
+        </>
     )
 }
 
-export default MainScreen
+export default CallingRoot
 
 const styles = StyleSheet.create({})

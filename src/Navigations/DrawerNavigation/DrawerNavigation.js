@@ -1,150 +1,229 @@
-//This is an example code for Navigation Drawer with Custom Side bar//
-//This Example is for React Navigation 3.+//
-import React, { Component } from 'react';
-//import react in our code.
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-  Platform,
-  Text,
-} from 'react-native';
-// import all basic components
+// Custom Navigation Drawer / Sidebar with Image and Icon in Menu Options
+// https://aboutreact.com/custom-navigation-drawer-sidebar-with-image-and-icon-in-menu-options/
 
-//Import required react-navigation component
-import {
-  createDrawerNavigator,
-  createStackNavigator,
-  createAppContainer,
-  createSwitchNavigator,
-  createBottomTabNavigator
-} from 'react-navigation';
+import 'react-native-gesture-handler';
 
-//Import all the screens
-import Screen1 from '../../Screens/InquiryScreen';
-import Screen2 from '../../Screens/IssuesScreen';
-import Screen3 from '../../Screens/SignUpScreen';
+import * as React from 'react';
+import { View, TouchableOpacity, Image } from 'react-native';
 
-//Import Custom Sidebar
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+
+import Inquiry from '../../Screens/InquiryScreen';
+import Issues from '../../Screens/IssuesScreen';
+import Notification from '../../Screens/Issues';
+
+// Import Custom Sidebar
 import CustomSidebarMenu from './CustomSidebarMenu';
+import HomeScreen from '../../Screens/HomeScreen';
 
-global.currentScreenIndex = 0;
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-//Navigation Drawer Structure for all screen
-class NavigationDrawerStructure extends Component {
-  //Top Navigation Header with Donute Button
-  toggleDrawer = () => {
+const NavigationDrawerStructure = (props) => {
+  //Structure for the navigatin Drawer
+  const toggleDrawer = () => {
     //Props to open/close the drawer
-    this.props.navigationProps.toggleDrawer();
+    props.navigationProps.toggleDrawer();
   };
-  render() {
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-          {/*Donute Button Image */}
-          {/* <Image
-            source={require('./image/drawer.png')}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
-          /> */}
-        </TouchableOpacity>
-      </View>
-    );
-  }
+
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity onPress={toggleDrawer}>
+        {/*Donute Button Image */}
+        <Image
+          source={{
+            uri:
+              'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
+          }}
+          style={{ width: 25, height: 25, marginLeft: 5 }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const HomeStack = ({ navigation }) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="MyHome"
+
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}
+    >
+      <Stack.Screen
+        name="MyHome"
+        component={HomeScreen}
+        options={{
+          title: 'My Department',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title//Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  )
 }
 
-//Stack Navigator for the First Option of Navigation Drawer
-const FirstActivity_StackNavigator = createStackNavigator({
-  //All the screen from the First Option will be indexed here
-  First: {
-    screen: Screen1,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 1',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: 'blue',
-      },
-      headerTintColor: '#fff',
-    }),
-  },
-});
+function firstScreenStack({ navigation }) {
+  return (
+    <Stack.Navigator initialRouteName="Inquiry"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}
+    >
+      <Stack.Screen
+        name="Issues"
+        component={Issues}
+        options={{
+          title: 'Your Inquiry',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
-//Stack Navigator for the Second Option of Navigation Drawer
-const Screen2_StackNavigator = createStackNavigator({
-  //All the screen from the Second Option will be indexed here
-  Second: {
-    screen: Screen2,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 2',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+function secondScreenStack({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="Issues"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}>
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={({ navigation }) => ({
+          title: 'Notification',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
 
-      headerStyle: {
-        backgroundColor: '#FF9800',
-      },
-      headerTintColor: '#fff',
-    }),
-  },
-});
+function thirdScreen({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="Issues"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerStructure navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#FF9900',
+        },
+        headerTitleAlign: 'center',
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }, //Set Header Title
+      }}>
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          title: 'Notification',
+          headerStyle: {
+            backgroundColor: '#FF9900',
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          }, //Set Header Title//Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
-//Stack Navigator for the Third Option of Navigation Drawer
-const Screen3_StackNavigator = createStackNavigator({
-  //All the screen from the Third Option will be indexed here
-  Third: {
-    screen: Screen3,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Demo Screen 3',
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerStyle: {
-        backgroundColor: '#FF9800',
-      },
-      headerTintColor: '#fff',
-    }),
-  },
-});
+function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator
+        drawerContentOptions={{
+          activeTintColor: '#FF9900',
+          itemStyle: { marginVertical: 5 },
+        }}
+        drawerContent={(props) => <CustomSidebarMenu {...props} />}>
+        <Drawer.Screen
+          name="Home"
+          options={{ drawerLabel: 'My Department' }}
+          component={HomeStack}
+        />
+        <Drawer.Screen
+          name="Inquiry"
+          options={{ drawerLabel: 'My Inquiry' }}
+          component={firstScreenStack}
+        />
+        <Drawer.Screen
+          name="Notification"
+          options={{ drawerLabel: 'Notification' }}
+          component={thirdScreen}
+        />
+        <Drawer.Screen
+          name="DailyUpdate"
+          options={{ drawerLabel: 'DailyUpdate' }}
+          component={secondScreenStack}
+        />
+      </Drawer.Navigator>
 
-//Drawer Navigator Which will provide the structure of our App
-const DrawerNavigatorExample = createDrawerNavigator(
-  {
-    //Drawer Optons and indexing
-    NavScreen1: {
-      screen: FirstActivity_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Demo Screen 1',
-      },
-    },
-    NavScreen2: {
-      screen: Screen2_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Demo Screen 2',
-      },
-    },
-    NavScreen3: {
-      screen: Screen3_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Demo Screen 3',
-      },
-    },
-  },
-  {
-    //For the Custom sidebar menu we have to provide our CustomSidebarMenu
-    contentComponent: CustomSidebarMenu,
-    //Sidebar width
-    drawerWidth: Dimensions.get('window').width - 130,
-  }
-);
+    </NavigationContainer>
 
-const BottomNav = createBottomTabNavigator({
-  Entrantes: Screen3_StackNavigator,
-});
+  );
+}
 
-const switchNavigator = createSwitchNavigator(
-  {
-    Bottom: BottomNav,
-    Drawler:DrawerNavigatorExample
-  },
-  {
-    initialRouteName: 'Bottom',
-  }
-);
-export default createAppContainer(DrawerNavigatorExample);
+export default App;

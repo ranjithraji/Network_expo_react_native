@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Login, Profile } from "../../Service/ApiService";
 import Button from "../Components/Button/Button";
@@ -12,24 +12,23 @@ const LoginScreen = () => {
   const state = React.useContext(GlobalContext);
 
   const getToken = async () => {
-    try {
-      const value = await AsyncStorage.getItem("token");
-      if (value !== null) {
-        try {
-          const response = await Profile(value);
-          console.log(response);
-          if (response) {
-            await state.StateDispatch({
-              type: "LOGIN",
-              payload: { user: response.user, token: value },
-            });
-          }
-        } catch (e) {
-          console.log(e);
+    const value =await  AsyncStorage.getItem("token");
+    if (value !== null) {
+      try {
+        const response = await Profile(value);
+        console.log(response);
+        if (response.success === true) {
+          await state.StateDispatch({
+            type: "LOGIN",
+            payload: { user: response.user, token: value },
+          });
         }
+        else {
+          await state.StateDispatch({ type: 'LOGOUT' })
+        }
+      } catch (e) {
+        alert(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -38,18 +37,27 @@ const LoginScreen = () => {
   }, []);
 
   const login = async () => {
-    console.log("object");
-    try {
-      const response = await Login({ email: email, password: password });
-      console.log(response);
-      if (response) {
+    if (email == '' || password == '') {
+      alert('Please Enter your email ID & password')
+    }
+    else {
+      try {
+        const response = await Login({ email: email, password: password });
+        console.log(response);
         if (response.success) {
-          await AsyncStorage.setItem("token", response.token);
-          getToken();
+          if (response.success) {
+            await AsyncStorage.setItem("token", response.token);
+            await getToken();
+          }
         }
+        else {
+          alert(response.error)
+          await state.StateDispatch({ type: 'LOGOUT' })
+
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -59,7 +67,7 @@ const LoginScreen = () => {
         <View style={styles.inputView}>
           <TextInput
             placeholder={"Person Id / Email"}
-            style={{ width: 200 }}
+            style={{ width: Dimensions.get('window').width / 1.8, fontSize: 18 }}
             value={email}
             onChangeText={txt => {
               setEmail(txt);
@@ -68,8 +76,9 @@ const LoginScreen = () => {
         </View>
         <View style={[styles.inputView, { marginTop: 45 }]}>
           <TextInput
+            secureTextEntry={true}
             placeholder={"Password"}
-            style={{ width: 200 }}
+            style={{ width: Dimensions.get('window').width / 1.8, fontSize: 18 }}
             value={password}
             onChangeText={txt => {
               setPassword(txt);

@@ -4,7 +4,7 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { SignUp } from "../../Service/ApiService";
 import AsyncStorage from "@react-native-community/async-storage";
 
-const SignUpScreen = () => {
+const SignUpScreen = ({navigation}) => {
   const [personId, setPersonId] = React.useState("");
   const [email, setEmail] = React.useState("");
 
@@ -17,6 +17,10 @@ const SignUpScreen = () => {
       if (response) {
         if (response.success) {
           await AsyncStorage.setItem("token", response.token);
+          await navigation.navigate('Verify')
+        }
+        else{
+          alert(response.error)
         }
       }
     } catch (e) {
