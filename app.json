@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Yelfie_FrontEnd",
-    "slug": "Yelfie_FrontEnd",
+    "name": "Network",
+    "slug": "Network",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
