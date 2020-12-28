@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import StatusBar from "../../Components/StatusBar/StatusBar";
 import Button from "../../Components/Button/Button";
-const IssueCard = ({ data }) => {
+const IssueCard = ({ data , pressFunction}) => {
   // const {issueType, location, assignedBy, reportingAt} = data;
   return (
     <View style={style.issueCard}>
@@ -47,7 +47,7 @@ const IssueCard = ({ data }) => {
                 </View> */}
       </View>
       <View style={style.tag}>
-        <Button title={"view >>"} greenText />
+        <Button title={"view >>"} greenText  pressFunction={()=>pressFunction(data._id)}/>
       </View>
     </View>
   );
