@@ -30,7 +30,7 @@ const IssueContainer = () => {
           AssignedBy: e.issueId.assignedBy.userName,
           status: e.status,
           location: e.issueId.location,
-          createdAt: moment(e.createdAt, "YYYYMMDD").fromNow(),
+          createdAt: moment(e.createdAt).startOf('hour').fromNow(),
         };
         foodArr.push(d);
       }

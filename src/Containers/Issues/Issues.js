@@ -5,7 +5,7 @@ import Button from "../../Components/Button/Button";
 
 const Issues = ({ data, navigation }) => {
   const { issueType, location, assignedBy, reportingAt, status, _id } = data;
-
+console.log(data);
   return (
     <View style={style.issueCard}>
       <View style={style.tag}>

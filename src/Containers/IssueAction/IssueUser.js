@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import StatusBar from "../../Components/StatusBar/StatusBar";
-const IssueUser = ({ status }) => {
+const IssueUser = ({ status, data }) => {
+  console.log("DATA", data);
   return (
     <React.Fragment>
       <View
@@ -33,7 +34,7 @@ const IssueUser = ({ status }) => {
             padding: 10,
           }}
         >
-          <Text style={{ textAlign: "center" }}>Mr. Manitanace</Text>
+          <Text style={{ textAlign: "center" }}>{data.assignedBy?data.assignedBy.username:"Not Assigned" }</Text>
         </View>
       </View>
       <View

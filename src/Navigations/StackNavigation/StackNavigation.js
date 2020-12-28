@@ -21,7 +21,7 @@ const StraupStackNavigation = ({ navigation }) => {
                         headerShown: false
                     }}
                 />
-                <Stack.Screen name="SingUp"
+                <Stack.Screen name="SignUp"
                     component={SignUpScreen}
                     options={{
                         headerShown: false

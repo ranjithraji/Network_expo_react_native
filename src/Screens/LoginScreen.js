@@ -5,14 +5,16 @@ import { Login, Profile } from "../../Service/ApiService";
 import Button from "../Components/Button/Button";
 import AsyncStorage from "@react-native-community/async-storage";
 import { GlobalContext } from "../../Service/GlobalContxt";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const state = React.useContext(GlobalContext);
-
+  const nav = useNavigation();
   const getToken = async () => {
     const value = await AsyncStorage.getItem("token");
+    
     if (value !== null) {
       try {
         const response = await Profile(value);
@@ -96,11 +98,9 @@ const LoginScreen = () => {
         }}
       >
         <View style={{ padding: 5 }}>
-          <Button title={"User"} type={"orange"} />
+          <Button title={"Register"} type={"white"} pressFunction={()=>{nav.navigate('SignUp') }}/>
         </View>
-        <View style={{ padding: 5 }}>
-          <Button title={"Network Engineers"} type={"white"} width={130} />
-        </View>
+      
       </View>
 
       <View style={{ padding: 20 }}>

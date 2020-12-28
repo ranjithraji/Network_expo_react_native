@@ -7,7 +7,7 @@ const IssueCard = ({ data , pressFunction}) => {
   return (
     <View style={style.issueCard}>
       <View style={style.tag}>
-        <Text>{data.createdAt}hour ago</Text>
+        <Text>{data.createdAt}</Text>
         <View style={{ marginTop: 20 }}>
           <StatusBar status={data.status || "In Progress"} />
         </View>

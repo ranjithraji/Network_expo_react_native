@@ -42,7 +42,9 @@ const InquiryScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={{ padding: 0 }}>
-      <ScrollView style={{ paddingVertical: 10, height: "100%" }}>
+      <ScrollView style={{ paddingVertical: 10, height: "100%" }}
+      
+      >
         {inquiry && (
           <View style={style.issueCard}>
             <View style={{ paddingVertical: 10 }}>
@@ -98,7 +100,7 @@ const InquiryScreen = ({ route }) => {
                     <Text style={style.dataHeadRowText}>Date & Time :</Text>
                   </View>
                   <View style={style.dataRow}>
-                    <Text style={style.dataValueRow}>{"rama"}</Text>
+                    <Text style={style.dataValueRow}>{inquiry.reportingAt}</Text>
                   </View>
                 </View>
 
@@ -135,7 +137,7 @@ const InquiryScreen = ({ route }) => {
                 </View>
               </View>
               {userType === "Faculty" ? (
-                <IssueUser status={inquiry.status} />
+                <IssueUser status={inquiry.status} data={inquiry} />
               ) : (userType !== "Faculty" && inquiry.status === "Not Assign" &&
                 <IssueAdmin id={inquiry._id} />
               )}
