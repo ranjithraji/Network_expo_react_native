@@ -39,7 +39,7 @@ const InquiryScreen = ({ route }) => {
   React.useEffect(() => {
     getOneInquiry();
   }, [someId]);
-
+console.log(inquiry, "inquiry");
   return (
     <SafeAreaView style={{ padding: 0 }}>
       <ScrollView style={{ paddingVertical: 10, height: "100%" }}>
@@ -98,7 +98,7 @@ const InquiryScreen = ({ route }) => {
                     <Text style={style.dataHeadRowText}>Date & Time :</Text>
                   </View>
                   <View style={style.dataRow}>
-                    <Text style={style.dataValueRow}>{"rama"}</Text>
+                    <Text style={[style.dataValueRow, {height:15}]}>{inquiry.reportingAt}</Text>
                   </View>
                 </View>
 
@@ -135,7 +135,7 @@ const InquiryScreen = ({ route }) => {
                 </View>
               </View>
               {userType === "Faculty" ? (
-                <IssueUser status={inquiry.status} />
+                <IssueUser status={inquiry.status} data={inquiry} />
               ) : (userType !== "Faculty" && inquiry.status === "Not Assign" &&
                 <IssueAdmin id={inquiry._id} />
               )}
