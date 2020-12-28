@@ -1,11 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView , RefreshControl,} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Issues from "../Containers/Issues/Issues";
 import IssueDate from "../data/issueData.json";
 import API from "../../Service/ApiService";
 import { GlobalContext } from "../../Service/GlobalContxt";
 import { getAllFacIssues, getAllNetEngIssues } from "../../Service/ApiService";
+const wait = (timeout) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 const IssuesScreen = ({ navigation }) => {
   const [AllIssues, setAllIssues] = React.useState();
@@ -26,6 +31,7 @@ const IssuesScreen = ({ navigation }) => {
 
       if (response.success === true) {
         alert(response.message);
+        setRefreshing(false);
         setAllIssues(response.issues);
       } else {
         alert(response.error);
@@ -38,10 +44,21 @@ const IssuesScreen = ({ navigation }) => {
     fetchData();
   }, [someId]);
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
+
+
   // console.log(AllIssues, "AllIssues");
   return (
     <SafeAreaView style={{ padding: 5, flex: 1, backgroundColor: 'white', }}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {AllIssues &&
           AllIssues.map((x, i) => (
             <View

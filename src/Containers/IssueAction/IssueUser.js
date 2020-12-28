@@ -35,7 +35,7 @@ const IssueUser = ({ status, data }) => {
           }}
         >
           <Text style={{ textAlign: "center" }}>
-            {data.assignedBy.userName
+            {data.assignedBy && data.assignedBy.userName
               ? data.assignedBy.userName
               : "Not Assigned"}
           </Text>
