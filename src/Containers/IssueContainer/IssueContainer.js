@@ -10,14 +10,7 @@ const IssueContainer = () => {
   const { State } = React.useContext(GlobalContext);
   const nav = useNavigation();
   const [Issues, setIssues] = useState([
-    {
-      _id: "1",
-      issueType: "Network Issue",
-      AssignedBy: "faculty",
-      status: "In Progress",
-      location: "location",
-      createdAt: "5",
-    },
+   
   ]);
   const sc = async () => {
     const con = await Socket.io.connect("http://192.168.43.207:2000", {
@@ -44,7 +37,7 @@ const IssueContainer = () => {
       setIssues(foodArr)
      
      } catch (error) {
-       setIssues([]);
+       setIssues([...Issues]);
      }
     
       // setIssues(res.notifications);
