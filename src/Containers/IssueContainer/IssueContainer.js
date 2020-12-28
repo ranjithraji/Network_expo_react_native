@@ -5,17 +5,12 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import Socket from "socket.io-client";
 import IssueCard from "../IssueCard/IssueCard";
 import { GlobalContext } from "../../../Service/GlobalContxt";
+import { useNavigation } from "@react-navigation/native";
 const IssueContainer = () => {
   const { State } = React.useContext(GlobalContext);
+  const nav = useNavigation();
   const [Issues, setIssues] = useState([
-    {
-      _id: "1",
-      issueType: "Network Issue",
-      AssignedBy: "faculty",
-      status: "In Progress",
-      location: "location",
-      createdAt: "5",
-    },
+   
   ]);
   const sc = async () => {
     const con = await Socket.io.connect("http://192.168.43.207:2000", {
@@ -23,10 +18,12 @@ const IssueContainer = () => {
     });
     con.on("FromAPI", msg => {
       let res = JSON.parse(msg);
-      //  console.log("MSG",res.notifications)
+       console.log("MSG",res.notifications)
+     try {
       let foodArr = [];
       for (let i = 0; i < res.notifications.length; i++) {
         const e = res.notifications[i];
+      
         let d = {
           _id: e._id,
           issueType: e.issueId.issueType,
@@ -37,7 +34,12 @@ const IssueContainer = () => {
         };
         foodArr.push(d);
       }
-      setIssues(foodArr);
+      setIssues(foodArr)
+     
+     } catch (error) {
+       setIssues([...Issues]);
+     }
+    
       // setIssues(res.notifications);
       // console.log([...Issues]);
     });
@@ -54,8 +56,11 @@ const IssueContainer = () => {
   }, []);
   useEffect(() => {}, []);
   const _renderer = i => {
-    return <IssueCard notifications={true} data={Issues[i]} />;
+   if (Issues)  { return <IssueCard notifications={true} data={Issues[i]}  pressFunction={pressFunction}/>};
   };
+  const pressFunction = (id) =>{
+    nav.navigate('IssuesDetails',{id:id})
+  }
   return (
     <View style={styles}>
       <FlatList
