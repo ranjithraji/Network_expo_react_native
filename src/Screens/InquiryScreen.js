@@ -39,7 +39,7 @@ const InquiryScreen = ({ route }) => {
   React.useEffect(() => {
     getOneInquiry();
   }, [someId]);
-
+console.log(inquiry, "inquiry");
   return (
     <SafeAreaView style={{ padding: 0 }}>
       <ScrollView style={{ paddingVertical: 10, height: "100%" }}
