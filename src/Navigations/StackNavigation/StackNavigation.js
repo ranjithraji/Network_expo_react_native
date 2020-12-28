@@ -5,6 +5,7 @@ import SignUpScreen from '../../Screens/SignUpScreen';
 import LoginScreen from '../../Screens/LoginScreen';
 import VerifyScreen from '../../Screens/VerifyScreen'
 import { NavigationContainer } from '@react-navigation/native';
+import Issues from '../../Screens/Issues'
 
 
 const Stack = createStackNavigator();
@@ -32,6 +33,8 @@ const StraupStackNavigation = ({ navigation }) => {
                         headerShown: false
                     }}
                 />
+                
+               
             </Stack.Navigator>
         </NavigationContainer>
     )
