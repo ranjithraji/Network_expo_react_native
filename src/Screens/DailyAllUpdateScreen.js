@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, RefreshControl } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { getAllEngDailyUpdate, getAllFacDailyUpdate } from '../../Service/ApiService';
 import { GlobalContext } from '../../Service/GlobalContxt';
@@ -19,7 +19,7 @@ const DailyAllUpdateScreen = () => {
     }, [])
 
     const getFuc = async (token) => {
-            await getAllFacDailyUpdateFuc(token)
+        await getAllFacDailyUpdateFuc(token)
     }
 
     const getAllFacDailyUpdateFuc = async (token) => {
@@ -41,10 +41,11 @@ const DailyAllUpdateScreen = () => {
         } catch (error) {
             console.log(error);
         }
+        await setRefreshing(false)
     }
     const _renderer = (i) => {
         return (
-             State.userType === userType[1] ?
+            State.userType === userType[1] ?
                 <DailyUpdateScreen daily={true}
                     data={dailyupdate[i]}
                 />
@@ -55,10 +56,23 @@ const DailyAllUpdateScreen = () => {
                 />
         );
     }
+
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getAllFacDailyUpdateFuc(State.token);
+    }, []);
+
     return (
         <View style={{ flex: 1, padding: 10, backgroundColor: 'white', }}>
             <View style={{ flex: 0.8, padding: 10, marginTop: 20 }}>
                 <FlatList
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={()=>{onRefresh()}} />
+                    }
+
                     data={dailyupdate}
                     keyExtractor={(item) => item._id}
                     renderItem={({ index }) => _renderer(index)}

@@ -13,28 +13,29 @@ const IssueContainer = () => {
    
   ]);
   const sc = async () => {
-    const con = await Socket.io.connect("http://192.168.43.207:2000", {
+    const con = await Socket.io.connect("http://192.168.43.40:2000", {
       reconnection: true,
     });
     con.on("FromAPI", msg => {
       let res = JSON.parse(msg);
-       console.log("MSG",res.notifications)
      try {
       let foodArr = [];
-      for (let i = 0; i < res.notifications.length; i++) {
-        const e = res.notifications[i];
+      // for (let i = 0; i < res.notifications.length; i++) {
+      //   const e = res.notifications[i];
       
-        let d = {
-          _id: e._id,
-          issueType: e.issueId.issueType,
-          AssignedBy: e.issueId.assignedBy.userName,
-          status: e.status,
-          location: e.issueId.location,
-          createdAt: moment(e.createdAt, "YYYYMMDD").fromNow(),
-        };
-        foodArr.push(d);
-      }
-      setIssues(foodArr)
+      //   let d = {
+      //     _id: e._id,
+      //     issueType: e.issueId.issueType,
+      //     AssignedBy: e.issueId.assignedBy.userName,
+      //     status: e.status,
+      //     location: e.issueId.location,
+      //     createdAt: moment(e.createdAt).startOf('hour').fromNow(),
+      //   };
+      //   foodArr.push(d);
+      //   setIssues([...Issues,d])
+      //   console.log(d);
+      // }
+      setIssues(res.notifications)
      
      } catch (error) {
        setIssues([...Issues]);
@@ -56,7 +57,7 @@ const IssueContainer = () => {
   }, []);
   useEffect(() => {}, []);
   const _renderer = i => {
-   if (Issues)  { return <IssueCard notifications={true} data={Issues[i]}  pressFunction={pressFunction}/>};
+   if (Issues.length!==0)  { return <IssueCard notifications={true} issue={Issues[i]}  navigation={nav}/>};
   };
   const pressFunction = (id) =>{
     nav.navigate('IssuesDetails',{id:id})

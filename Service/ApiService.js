@@ -1,4 +1,4 @@
-const path = "https://41e6bb6350cd.ngrok.io/v1";
+const path = "http://192.168.43.40:2000/v1";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

@@ -6,7 +6,7 @@ import Button from "../Components/Button/Button";
 import AsyncStorage from "@react-native-community/async-storage";
 import { GlobalContext } from "../../Service/GlobalContxt";
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const state = React.useContext(GlobalContext);
@@ -96,10 +96,7 @@ const LoginScreen = () => {
         }}
       >
         <View style={{ padding: 5 }}>
-          <Button title={"User"} type={"orange"} />
-        </View>
-        <View style={{ padding: 5 }}>
-          <Button title={"Network Engineers"} type={"white"} width={130} />
+          <Button title={"SignUp"} type={"orange"} pressFunction={()=>{navigation.navigate('SingUp')}} />
         </View>
       </View>
 

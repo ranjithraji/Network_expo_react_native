@@ -2,12 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import StatusBar from "../../Components/StatusBar/StatusBar";
 import Button from "../../Components/Button/Button";
-const IssueCard = ({ data , pressFunction}) => {
+import moment from 'moment'
+const IssueCard = ({ issue , navigation}) => {
+  const data=issue
   // const {issueType, location, assignedBy, reportingAt} = data;
   return (
-    <View style={style.issueCard}>
+    <View style={style.issueCard} key={data._id}>
       <View style={style.tag}>
-        <Text>{data.createdAt}hour ago</Text>
+        <Text>{moment(data.createdAt).startOf('hour').fromNow()}</Text>
         <View style={{ marginTop: 20 }}>
           <StatusBar status={data.status || "In Progress"} />
         </View>
@@ -18,7 +20,7 @@ const IssueCard = ({ data , pressFunction}) => {
             <Text style={style.dataHeadRowText}>Issue Type :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>{data.issueType || "nn"}</Text>
+            <Text style={style.dataValueRow}>{data.issueId.issueType || "nn"}</Text>
           </View>
         </View>
         <View style={style.rowView}>
@@ -26,7 +28,7 @@ const IssueCard = ({ data , pressFunction}) => {
             <Text style={style.dataHeadRowText}>Location :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>{data.location || "loc"}</Text>
+            <Text style={style.dataValueRow}>{data.issueId.location || "loc"}</Text>
           </View>
         </View>
         <View style={style.rowView}>
@@ -34,7 +36,7 @@ const IssueCard = ({ data , pressFunction}) => {
             <Text style={style.dataHeadRowText}>Assigned by :</Text>
           </View>
           <View style={style.dataRow}>
-            <Text style={style.dataValueRow}>{data.AssignedBy || "ham"}</Text>
+            <Text style={style.dataValueRow}>{data.issueId && data.issueId.assignedBy && data.issueId.assignedBy.userName || "ham"}</Text>
           </View>
         </View>
         {/* <View style={style.rowView}>
@@ -47,7 +49,7 @@ const IssueCard = ({ data , pressFunction}) => {
                 </View> */}
       </View>
       <View style={style.tag}>
-        <Button title={"view >>"} greenText  pressFunction={()=>pressFunction(data._id)}/>
+        <Button title={"view >>"} greenText  pressFunction={()=> navigation.navigate("IssuesDetails", { id:data.issueId._id })}/>
       </View>
     </View>
   );

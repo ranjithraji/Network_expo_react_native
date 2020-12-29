@@ -4,12 +4,12 @@ import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { SignUp } from "../../Service/ApiService";
 import AsyncStorage from "@react-native-community/async-storage";
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = ({ navigation }) => {
   const [personId, setPersonId] = React.useState("");
   const [email, setEmail] = React.useState("");
 
   const register = async () => {
-    console.log("object");
+    console.log("object",{ personId: personId, email: email });
 
     try {
       const response = await SignUp({ personId: personId, email: email });
@@ -19,7 +19,7 @@ const SignUpScreen = ({navigation}) => {
           await AsyncStorage.setItem("token", response.token);
           await navigation.navigate('Verify')
         }
-        else{
+        else {
           alert(response.error)
         }
       }
@@ -80,6 +80,21 @@ const SignUpScreen = ({navigation}) => {
           * If You are a Network Engineer Please Contact Network Admin.
         </Text>
       </View>
+      <TouchableOpacity
+        onPress={() => { navigation.navigate('Login') }}
+        style={{
+          backgroundColor: "#1E538F",
+          width: 120,
+          height: 42,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 5,
+        }}
+      >
+        <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+          Login
+          </Text>
+      </TouchableOpacity>
     </View>
   );
 };
