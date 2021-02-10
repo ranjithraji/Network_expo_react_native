@@ -13,7 +13,7 @@ const IssueContainer = () => {
    
   ]);
   const sc = async () => {
-    const con = await Socket.io.connect("http://192.168.43.40:2000", {
+    const con = await Socket.io.connect("http://192.168.3.51:2000", {
       reconnection: true,
     });
     con.on("FromAPI", msg => {
